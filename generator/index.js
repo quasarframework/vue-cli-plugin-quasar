@@ -2,7 +2,7 @@ const fs = require('fs')
 const extendPluginOptions = require('../lib/extendPluginOptions')
 
 module.exports = (api, opts, rootOpts) => {
-  api.extendPackage({
+  const deps = {
     dependencies: {
       'quasar-framework': '^0.15.10',
       'quasar-extras': '^1.0.3'
@@ -11,12 +11,21 @@ module.exports = (api, opts, rootOpts) => {
       'stylus': '^0.54.5',
       'stylus-loader': '^3.0.1'
     }
-  })
+  }
+
+  if (opts.quasar.rtl) {
+    deps.devDependencies['postcss-rtl'] = '^1.2.3'
+  }
+
+  api.extendPackage(deps)
 
   // modify plugin options
   extendPluginOptions(api, pluginOptions => {
     pluginOptions.quasar = {
       theme: opts.quasar.theme
+    }
+    if (opts.quasar.rtlSupport) {
+      pluginOptions.quasar.rtlSupport = true
     }
     return pluginOptions
   })
@@ -24,7 +33,6 @@ module.exports = (api, opts, rootOpts) => {
   api.render('./templates/common')
   if (opts.quasar.replaceComponents) {
     const hasRouter = fs.existsSync(api.resolve('src/router.js'))
-    api.render(`./templates/common-replace`)
     api.render(`./templates/with${hasRouter ? '' : 'out'}-router`, opts)
   }
 

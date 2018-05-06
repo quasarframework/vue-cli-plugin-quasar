@@ -27,10 +27,10 @@ module.exports = [
     message: 'Import all Quasar components, directives and plugins?',
     default: false
   },
-  { // TODO
+  {
     name: 'quasar.rtlSupport',
     type: 'confirm',
-    message: 'Use RTL support? (TODO)',
+    message: 'Use RTL support?',
     default: false
   },
   {
@@ -63,7 +63,7 @@ module.exports = [
   {
     name: 'quasar.i18n',
     type: 'string',
-    message: 'Quasar I18n lang - one from https://github.com/quasarframework/quasar/tree/dev/i18n',
+    message: 'Quasar i18n lang - one from https://github.com/quasarframework/quasar/tree/dev/i18n',
     default: 'en-us',
     validate: opt => opt && opt.length >= 2
   },
