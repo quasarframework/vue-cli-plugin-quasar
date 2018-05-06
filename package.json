@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/quasarframework/vue-cli-plugin-quasar.git"
+    "url": "git+https://git@github.com/quasarframework/vue-cli-plugin-quasar.git"
   },
   "keywords": [
     "quasar",
