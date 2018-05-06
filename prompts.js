@@ -15,6 +15,13 @@ module.exports = [
     ]
   },
   {
+    name: 'quasar.replaceComponents',
+    type: 'confirm',
+    when: 'router',
+    message: 'Allow Quasar to replace App.vue, About.vue, Home.vue and (if available) router.js?',
+    default: true
+  },
+  {
     name: 'quasar.all',
     type: 'confirm',
     message: 'Import all Quasar components, directives and plugins?',
@@ -41,11 +48,6 @@ module.exports = [
         value: 'fontawesome',
         short: 'Fontawesome'
       },
-      /* {
-        name: 'Fontawesome Pro',
-        value: 'fontawesome-pro',
-        short: 'Fontawesome Pro'
-      }, */
       {
         name: 'Ionicons',
         value: 'ionicons',
@@ -92,11 +94,6 @@ module.exports = [
         value: 'fontawesome',
         short: 'Fontawesome'
       },
-      /* {
-        name: 'Fontawesome Pro icons',
-        value: 'fontawesome-pro',
-        short: 'Fontawesome Pro'
-      }, */
       {
         name: 'Ionicons icons',
         value: 'ionicons',

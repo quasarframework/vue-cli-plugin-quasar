@@ -1,3 +1,4 @@
+const fs = require('fs')
 const extendPluginOptions = require('../lib/extendPluginOptions')
 
 module.exports = (api, opts, rootOpts) => {
@@ -20,14 +21,32 @@ module.exports = (api, opts, rootOpts) => {
     return pluginOptions
   })
 
-  api.render('./templates')
+  api.render('./templates/common')
+  if (opts.quasar.replaceComponents) {
+    const hasRouter = fs.existsSync(api.resolve('src/router.js'))
+    api.render(`./templates/common-replace`)
+    api.render(`./templates/with${hasRouter ? '' : 'out'}-router`, opts)
+  }
 
   api.onCreateComplete(() => {
     let lines = '\n'
 
     const
       components = [
-        'QBtn'
+        'QBtn',
+        'QLayout',
+        'QLayoutHeader',
+        'QLayoutDrawer',
+        'QPage',
+        'QPageContainer',
+        'QToolbar',
+        'QToolbarTitle',
+        'QList',
+        'QListHeader',
+        'QItemSeparator',
+        'QItem',
+        'QItemSide',
+        'QItemMain',
       ],
       directives = [],
       plugins = []
@@ -65,7 +84,7 @@ module.exports = (api, opts, rootOpts) => {
     else {
       lines += `{`
       components.concat(directives).concat(plugins)
-        .forEach(part => { lines += `\n  ${part}` })
+        .forEach(part => { lines += `\n  ${part},` })
       lines += `\n}`
     }
     lines += ` from 'quasar'`
@@ -111,7 +130,6 @@ module.exports = (api, opts, rootOpts) => {
       const tsPath = api.resolve('./src/main.ts')
       const jsPath = api.resolve('./src/main.js')
 
-      const fs = require('fs')
       const mainPath = fs.existsSync(tsPath) ? tsPath : jsPath
       let content = fs.readFileSync(mainPath, { encoding: 'utf8' })
 
