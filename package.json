@@ -1,0 +1,25 @@
+{
+  "name": "vue-cli-plugin-quasar",
+  "version": "0.1.0",
+  "description": "Quasar plugin for vue cli 3",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/quasarframework/vue-cli-plugin-quasar.git"
+  },
+  "keywords": [
+    "quasar",
+    "plugin",
+    "vue",
+    "cli"
+  ],
+  "author": "Razvan Stoenescu <razvan.stoenescu@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/quasarframework/vue-cli-plugin-quasar/issues"
+  },
+  "homepage": "https://github.com/quasarframework/vue-cli-plugin-quasar#readme"
+}
