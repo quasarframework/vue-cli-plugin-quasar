@@ -2,6 +2,11 @@ const fs = require('fs')
 const extendPluginOptions = require('../lib/extendPluginOptions')
 
 module.exports = (api, opts, rootOpts) => {
+  const
+    tsPath = api.resolve('./src/main.ts'),
+    jsPath = api.resolve('./src/main.js'),
+    hasTS = fs.existsSync(tsPath)
+
   const deps = {
     dependencies: {
       'quasar-framework': '^0.15.10',
@@ -35,8 +40,15 @@ module.exports = (api, opts, rootOpts) => {
     api.render('./templates/rtl')
   }
   if (opts.quasar.replaceComponents) {
-    const hasRouter = fs.existsSync(api.resolve('src/router.js'))
+    const
+      extension = hasTS ? 'ts' : 'js',
+      routerFile = api.resolve(`src/router.${extension}`),
+      hasRouter = fs.existsSync(routerFile)
+
     api.render(`./templates/with${hasRouter ? '' : 'out'}-router`, opts)
+    if (hasRouter) {
+      api.render(`./templates/with-router-${extension}`)
+    }
   }
 
   api.onCreateComplete(() => {
@@ -136,11 +148,8 @@ module.exports = (api, opts, rootOpts) => {
     lines += `\n})`
 
 
-    // Now inject additions to main.js
+    // Now inject additions to main.[js|ts]
     {
-      const tsPath = api.resolve('./src/main.ts')
-      const jsPath = api.resolve('./src/main.js')
-
       const mainPath = fs.existsSync(tsPath) ? tsPath : jsPath
       let content = fs.readFileSync(mainPath, { encoding: 'utf8' })
 
