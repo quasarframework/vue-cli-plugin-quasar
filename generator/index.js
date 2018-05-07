@@ -13,7 +13,7 @@ module.exports = (api, opts, rootOpts) => {
     }
   }
 
-  if (opts.quasar.rtl) {
+  if (opts.quasar.rtlSupport) {
     deps.devDependencies['postcss-rtl'] = '^1.2.3'
   }
 
@@ -31,6 +31,9 @@ module.exports = (api, opts, rootOpts) => {
   })
 
   api.render('./templates/common')
+  if (opts.quasar.rtlSupport) {
+    api.render('./templates/rtl')
+  }
   if (opts.quasar.replaceComponents) {
     const hasRouter = fs.existsSync(api.resolve('src/router.js'))
     api.render(`./templates/with${hasRouter ? '' : 'out'}-router`, opts)
