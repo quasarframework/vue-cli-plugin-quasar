@@ -161,5 +161,14 @@ module.exports = (api, opts, rootOpts) => {
       content = mainLines.reverse().join('\n')
       fs.writeFileSync(mainPath, content, { encoding: 'utf8' })
     }
+
+    if (api.generator.hasPlugin('@vue/cli-plugin-eslint')) {
+      const { spawnSync } = require('child_process')
+
+      spawnSync('node', [
+        'node_modules/@vue/cli-service/bin/vue-cli-service.js',
+        'lint'
+      ])
+    }
   })
 }
