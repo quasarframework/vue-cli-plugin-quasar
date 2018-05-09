@@ -1,6 +1,20 @@
 const fs = require('fs')
 const extendPluginOptions = require('../lib/extendPluginOptions')
 
+const message = `
+Documentation can be found at: http://quasar-framework.org
+
+Quasar is relying on donations to evolve. We'd be very grateful if you can
+take a look at: https://www.patreon.com/quasarframework
+Any amount is very welcomed.
+If invoices are required, please first contact razvan.stoenescu@gmail.com
+
+Please give us a star on Github if you appreciate our work:
+https://github.com/quasarframework/quasar
+
+Enjoy! - Quasar Team
+`
+
 module.exports = (api, opts, rootOpts) => {
   const
     tsPath = api.resolve('./src/main.ts'),
@@ -170,5 +184,7 @@ module.exports = (api, opts, rootOpts) => {
         'lint'
       ])
     }
+
+    api.exitLog(message, 'info')
   })
 }

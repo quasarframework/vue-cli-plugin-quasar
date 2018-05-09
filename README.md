@@ -2,7 +2,9 @@
 
 # Quasar Framework: vue-cli-plugin-quasar
 
-> :rocket: Start building a Vue app with Quasar Framework in 2 minutes! If you wish to also build Mobile & Electron apps, you should instead try using Quasar CLI.
+> :rocket: Start building a Vue app with Quasar Framework in 2 minutes!
+
+> :warning: **For the premium experience with Quasar, including the ability to build Mobile & Electron apps, you should instead try using Quasar CLI.**
 
 <a href="https://badge.fury.io/js/vue-cli-plugin-quasar" target="_blank"><img src="https://badge.fury.io/js/vue-cli-plugin-quasar.svg"></a>
 [![Join the chat at https://discord.gg/5TDhbDg](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/5TDhbDg)
