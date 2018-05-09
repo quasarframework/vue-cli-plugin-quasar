@@ -85,7 +85,7 @@ module.exports = (api, opts, rootOpts) => {
 
     lines += `\nimport './styles/quasar.styl'`
 
-    if (opts.quasar.features.ie) {
+    if (opts.quasar.features.includes('ie')) {
       lines += `\nimport 'quasar-framework/dist/quasar.ie.polyfills'`
     }
     if (hasIconSet) {
