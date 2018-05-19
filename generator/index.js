@@ -23,8 +23,8 @@ module.exports = (api, opts, rootOpts) => {
 
   const deps = {
     dependencies: {
-      'quasar-framework': '^0.15.11',
-      'quasar-extras': '^1.0.3'
+      'quasar-framework': '^0.16.0',
+      'quasar-extras': '^2.0.0'
     },
     devDependencies: {
       'stylus': '^0.54.5',
