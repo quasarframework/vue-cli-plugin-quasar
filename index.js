@@ -13,7 +13,8 @@ module.exports = (api, options) => {
         .alias
           .set('quasar', api.resolve(`node_modules/quasar-framework/dist/quasar.${theme}.esm.js`))
           .set('variables', api.resolve(`src/styles/quasar.variables.styl`))
-          .set('quasar-variables', api.resolve(`node_modules/quasar-framework/dist/core.variables.styl`))
+          .set('quasar-variables', api.resolve(`node_modules/quasar-framework/src/css/core.variables.styl`))
           .set('quasar-styl', api.resolve(`node_modules/quasar-framework/dist/quasar.${theme}.styl`))
+          .set('quasar-addon-styl', api.resolve(`node_modules/quasar-framework/src/css/flex-addon.styl`))
   })
 }
