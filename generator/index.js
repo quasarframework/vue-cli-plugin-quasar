@@ -105,7 +105,6 @@ module.exports = (api, opts, rootOpts) => {
       hasLang = opts.quasar.i18n !== 'en-us',
       hasIconSet = opts.quasar.iconSet !== 'material-icons'
 
-
     if (!opts.quasar.features.includes(opts.quasar.iconSet)) {
       opts.quasar.features.push(opts.quasar.iconSet)
     }

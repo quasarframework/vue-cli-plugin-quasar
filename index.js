@@ -37,5 +37,8 @@ module.exports = (api, options) => {
       .set('quasar-variables', api.resolve(`node_modules/quasar-framework/src/css/core.variables.styl`))
       .set('quasar-styl', api.resolve(`node_modules/quasar-framework/dist/quasar.${theme}.styl`))
       .set('quasar-addon-styl', api.resolve(`node_modules/quasar-framework/src/css/flex-addon.styl`))
+
+    chain.performance
+      .maxEntrypointSize(512000)
   })
 }
