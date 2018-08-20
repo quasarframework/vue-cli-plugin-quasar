@@ -1,7 +1,10 @@
-const fs = require('fs')
-const extendPluginOptions = require('../lib/extendPluginOptions')
+const
+  fs = require('fs'),
+  extendPluginOptions = require('../lib/extendPluginOptions'),
+  extendBabel = require('../lib/extendBabel')
+
 const message = `
-Documentation can be found at: http://quasar-framework.org
+Documentation can be found at: https://quasar-framework.org
 
 Quasar is relying on donations to evolve. We'd be very grateful if you can
 take a look at: https://www.patreon.com/quasarframework
@@ -16,7 +19,7 @@ Enjoy! - Quasar Team
 
 module.exports = (api, opts, rootOpts) => {
   const
-    defaultComponents = [
+    components = [
       'QBtn',
       'QLayout',
       'QLayoutHeader',
@@ -32,8 +35,8 @@ module.exports = (api, opts, rootOpts) => {
       'QItemSide',
       'QItemMain',
     ],
-    defaultDirectives = [],
-    defaultPlugins = []
+    directives = [],
+    plugins = []
 
   const
     tsPath = api.resolve('./src/main.ts'),
@@ -46,7 +49,7 @@ module.exports = (api, opts, rootOpts) => {
       'quasar-extras': '^2.0.4'
     },
     devDependencies: {
-      "babel-plugin-transform-imports": "1.5.0",
+      'babel-plugin-transform-imports': '1.5.0',
       'stylus': '^0.54.5',
       'stylus-loader': '^3.0.2'
     }
@@ -59,23 +62,20 @@ module.exports = (api, opts, rootOpts) => {
   api.extendPackage(deps)
 
   // modify plugin options
-  extendPluginOptions(api, pluginOptions => {
+  extendPluginOptions(api, (pluginOptions, transpileDependencies) => {
     pluginOptions.quasar = {
       theme: opts.quasar.theme
     }
     if (opts.quasar.rtlSupport) {
       pluginOptions.quasar.rtlSupport = true
     }
-
     if (opts.quasar.all) {
-      pluginOptions.quasar.framework = 'all'
-    } else {
-      pluginOptions.quasar.framework = {}
-      pluginOptions.quasar.framework.components = defaultComponents
-      pluginOptions.quasar.framework.directives = defaultDirectives
-      pluginOptions.quasar.framework.plugins = defaultPlugins
+      pluginOptions.quasar.importAll = true
     }
-    return pluginOptions
+
+    transpileDependencies.push(/[\\/]node_modules[\\/]quasar-framework[\\/]/)
+
+    return { pluginOptions, transpileDependencies }
   })
 
   api.render('./templates/common')
@@ -95,12 +95,11 @@ module.exports = (api, opts, rootOpts) => {
   }
 
   api.onCreateComplete(() => {
-    let lines = '\n'
+    if (!opts.quasar.all) {
+      extendBabel(api, opts.quasar.theme)
+    }
 
-    const
-      components = defaultComponents,
-      directives = defaultDirectives,
-      plugins = defaultPlugins
+    let lines = '\n'
 
     const
       hasLang = opts.quasar.i18n !== 'en-us',
@@ -143,7 +142,7 @@ module.exports = (api, opts, rootOpts) => {
 
     // build Vue.use()
     lines += `\n\nVue.use(Quasar, {`
-    lines += opts.quasar.all ? ` config: {}` : `\n  config: {}`
+    lines += `\n  config: {}`
 
     // if not 'all' we want to include specific defaults
     if (!opts.quasar.all) {
@@ -170,7 +169,7 @@ module.exports = (api, opts, rootOpts) => {
       lines += `, iconSet: iconSet`
     }
 
-    lines += ` })`
+    lines += `\n })`
 
     // Now inject additions to main.[js|ts]
     {
