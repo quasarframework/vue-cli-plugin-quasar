@@ -1,7 +1,7 @@
 {
   "name": "vue-cli-plugin-quasar",
-  "version": "0.2.1",
-  "description": "Quasar plugin for vue cli 3",
+  "version": "0.17.0",
+  "description": "Quasar Framework plugin for Vue CLI 3",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
