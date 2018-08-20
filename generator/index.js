@@ -1,6 +1,5 @@
 const fs = require('fs')
 const extendPluginOptions = require('../lib/extendPluginOptions')
-
 const message = `
 Documentation can be found at: http://quasar-framework.org
 
@@ -17,6 +16,26 @@ Enjoy! - Quasar Team
 
 module.exports = (api, opts, rootOpts) => {
   const
+    defaultComponents = [
+      'QBtn',
+      'QLayout',
+      'QLayoutHeader',
+      'QLayoutDrawer',
+      'QPage',
+      'QPageContainer',
+      'QToolbar',
+      'QToolbarTitle',
+      'QList',
+      'QListHeader',
+      'QItemSeparator',
+      'QItem',
+      'QItemSide',
+      'QItemMain',
+    ],
+    defaultDirectives = [],
+    defaultPlugins = []
+
+  const
     tsPath = api.resolve('./src/main.ts'),
     jsPath = api.resolve('./src/main.js'),
     hasTS = fs.existsSync(tsPath)
@@ -27,8 +46,9 @@ module.exports = (api, opts, rootOpts) => {
       'quasar-extras': '^2.0.4'
     },
     devDependencies: {
+      "babel-plugin-transform-imports": "1.5.0",
       'stylus': '^0.54.5',
-      'stylus-loader': '^3.0.1'
+      'stylus-loader': '^3.0.2'
     }
   }
 
@@ -45,6 +65,15 @@ module.exports = (api, opts, rootOpts) => {
     }
     if (opts.quasar.rtlSupport) {
       pluginOptions.quasar.rtlSupport = true
+    }
+
+    if (opts.quasar.all) {
+      pluginOptions.quasar.framework = 'all'
+    } else {
+      pluginOptions.quasar.framework = {}
+      pluginOptions.quasar.framework.components = defaultComponents
+      pluginOptions.quasar.framework.directives = defaultDirectives
+      pluginOptions.quasar.framework.plugins = defaultPlugins
     }
     return pluginOptions
   })
@@ -69,24 +98,9 @@ module.exports = (api, opts, rootOpts) => {
     let lines = '\n'
 
     const
-      components = [
-        'QBtn',
-        'QLayout',
-        'QLayoutHeader',
-        'QLayoutDrawer',
-        'QPage',
-        'QPageContainer',
-        'QToolbar',
-        'QToolbarTitle',
-        'QList',
-        'QListHeader',
-        'QItemSeparator',
-        'QItem',
-        'QItemSide',
-        'QItemMain',
-      ],
-      directives = [],
-      plugins = []
+      components = defaultComponents,
+      directives = defaultDirectives,
+      plugins = defaultPlugins
 
     const
       hasLang = opts.quasar.i18n !== 'en-us',
@@ -114,53 +128,49 @@ module.exports = (api, opts, rootOpts) => {
         lines += `\nimport 'quasar-extras/${feat}'`
       })
 
-    lines += `\nimport Quasar, `
+    // build import
+    lines += `\nimport `
     if (opts.quasar.all) {
-      lines += `* as All`
+      lines += `Quasar`
     }
     else {
-      lines += `{`
+      lines += `{\n  Quasar, `
       components.concat(directives).concat(plugins)
         .forEach(part => { lines += `\n  ${part},` })
       lines += `\n}`
     }
     lines += ` from 'quasar'`
 
+    // build Vue.use()
     lines += `\n\nVue.use(Quasar, {`
-    if (hasIconSet) {
-      lines += `\n  iconSet: iconSet,`
-    }
-    if (hasLang) {
-      lines += `\n  i18n: lang,`
-    }
+    lines += opts.quasar.all ? ` config: {}` : `\n  config: {}`
 
-    if (opts.quasar.all) {
-      lines += `\n  components: All,`
-      lines += `\n  directives: All,`
-      lines += `\n  plugins: All`
-    }
-    else {
-      lines += `\n  components: {`
-      components.forEach(comp => {
-        lines += `\n    ${comp},`
-      })
-      lines += `\n  },`
+    // if not 'all' we want to include specific defaults
+    if (!opts.quasar.all) {
+      lines+= ',\n  components: {'
+      components
+        .forEach(part => { lines += `\n    ${part},` })
+      lines += `\n  }`
 
-      lines += `\n  directives: {`
-      directives.forEach(directive => {
-        lines += `\n    ${directive},`
-      })
-      lines += `\n  },`
+      lines+= ',\n  directives: {'
+      directives
+        .forEach(part => { lines += `\n   ${part},` })
+      lines += `\n  }`
 
-      lines += `\n  plugins: {`
-      plugins.forEach(plugin => {
-        lines += `\n    ${plugin},`
-      })
+      lines+= ',\n  plugins: {'
+      plugins
+        .forEach(part => { lines += `\n   ${part},` })
       lines += `\n  }`
     }
 
-    lines += `\n})`
+    if (hasLang) {
+      lines += `, i18n: lang`
+    }
+    if (hasIconSet) {
+      lines += `, iconSet: iconSet`
+    }
 
+    lines += ` })`
 
     // Now inject additions to main.[js|ts]
     {
