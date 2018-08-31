@@ -10,7 +10,7 @@ module.exports = (api, options) => {
 
     if (!importAll) {
       chain.resolve.extensions
-        .merge([ `.${theme}.js` ])
+        .prepend(`.${theme}.js`)
 
       chain.plugin('define')
         .tap(args => {
