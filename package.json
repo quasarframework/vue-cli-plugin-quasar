@@ -4,7 +4,7 @@
   "description": "Quasar Framework plugin for Vue CLI 3",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -21,5 +21,18 @@
   "bugs": {
     "url": "https://github.com/quasarframework/vue-cli-plugin-quasar/issues"
   },
-  "homepage": "https://github.com/quasarframework/vue-cli-plugin-quasar#readme"
+  "homepage": "https://github.com/quasarframework/vue-cli-plugin-quasar#readme",
+  "dependencies": {
+    "chalk": "^2.4.1",
+    "yargs": "^12.0.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.4.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.0",
+    "eslint-plugin-standard": "^4.0.0",
+    "jest": "^23.5.0"
+  }
 }
