@@ -4,7 +4,8 @@
   "description": "Quasar Framework plugin for Vue CLI 3",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "jest",
+    "lint": "eslint ./"
   },
   "repository": {
     "type": "git",
