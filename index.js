@@ -7,7 +7,7 @@ module.exports = (api, options) => {
   }
 
   api.chainWebpack(chain => {
-    const theme = pluginOptions.theme
+    const theme = process.env.QUASAR_THEME
     const importAll = pluginOptions.importAll
 
     if (!importAll) {

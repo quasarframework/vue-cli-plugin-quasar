@@ -73,3 +73,26 @@ describe('constructor', () => {
     ])
   })
 })
+
+const mockApi = {
+  service: { run: jest.fn() }
+}
+
+describe('buildWeb', () => {
+  console.log = jest.fn()
+  test.each(['mat', 'ios'])('Builds for each theme', theme => {
+    const config = {}
+    config[theme] = { web: { someArg: 'expected' } }
+    const builder = new Builder(
+      { config: 'default' },
+      { configurations: { default: config } },
+      mockApi
+    )
+    builder.buildWeb()
+    expect(process.env.QUASAR_THEME).toBe(theme)
+    expect(mockApi.service.run).toBeCalledWith('build', {
+      someArg: 'expected',
+      dest: `dist/web-${theme}`
+    })
+  })
+})

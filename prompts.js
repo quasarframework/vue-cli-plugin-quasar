@@ -1,24 +1,10 @@
 module.exports = [
   {
-    name: 'quasar.theme',
-    type: 'list',
-    message: 'Select Quasar Theme:',
-    choices: [
-      {
-        name: 'Material Design',
-        value: 'mat'
-      },
-      {
-        name: 'iOS Theme',
-        value: 'ios'
-      }
-    ]
-  },
-  {
     name: 'quasar.replaceComponents',
     type: 'confirm',
     when: 'router',
-    message: 'Allow Quasar to replace App.vue, About.vue, Home.vue and (if available) router.js?',
+    message:
+      'Allow Quasar to replace App.vue, About.vue, Home.vue and (if available) router.js?',
     default: true
   },
   {
@@ -63,7 +49,8 @@ module.exports = [
   {
     name: 'quasar.i18n',
     type: 'string',
-    message: 'Quasar i18n lang - one from https://github.com/quasarframework/quasar/tree/dev/i18n',
+    message:
+      'Quasar i18n lang - one from https://github.com/quasarframework/quasar/tree/dev/i18n',
     default: 'en-us',
     validate: opt => opt && opt.length >= 2
   },

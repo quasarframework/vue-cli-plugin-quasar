@@ -69,9 +69,6 @@ module.exports = (api, opts, rootOpts) => {
 
   // modify plugin options
   extendPluginOptions(api, (pluginOptions, transpileDependencies) => {
-    pluginOptions.quasar = {
-      theme: opts.quasar.theme
-    }
     if (opts.quasar.rtlSupport) {
       pluginOptions.quasar.rtlSupport = true
     }
