@@ -3166,6 +3166,10 @@ shebang-regex@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/shebang-regex/-/shebang-regex-1.0.0.tgz#da42f49740c0b42db2ca9728571cb190c98efea3"
 
+shell-escape@0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/shell-escape/-/shell-escape-0.2.0.tgz#68fd025eb0490b4f567a027f0bf22480b5f84133"
+
 shellwords@^0.1.1:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/shellwords/-/shellwords-0.1.1.tgz#d6b9181c1a48d397324c84871efbcfc73fc0654b"
@@ -3535,6 +3539,12 @@ union-value@^1.0.0:
     get-value "^2.0.6"
     is-extendable "^0.1.1"
     set-value "^0.4.3"
+
+unparse-args@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/unparse-args/-/unparse-args-1.2.0.tgz#c2e053d1f6490958c946e33aa8eb8a4ba035ad6a"
+  dependencies:
+    shell-escape "0.2.0"
 
 unset-value@^1.0.0:
   version "1.0.0"

@@ -1,4 +1,5 @@
 const Builder = require('../lib/builder')
+const chalk = require('chalk')
 
 describe('constructor', () => {
   test('sets args', () => {
@@ -75,11 +76,12 @@ describe('constructor', () => {
 })
 
 const mockApi = {
-  service: { run: jest.fn() }
+  service: { run: jest.fn() },
+  hasPlugin: jest.fn(() => true)
 }
+console.log = jest.fn()
 
 describe('buildWeb', () => {
-  console.log = jest.fn()
   test.each(['mat', 'ios'])('Builds for each theme', theme => {
     const config = {}
     config[theme] = { web: { someArg: 'expected' } }
@@ -95,4 +97,55 @@ describe('buildWeb', () => {
       dest: `dist/web-${theme}`
     })
   })
+})
+
+describe('buildElectron', () => {
+  test('Throws error if vcp-electron-builder is not installed', () => {
+    const builder = new Builder(
+      { config: 'default' },
+      { configurations: { default: { electron: true } } },
+      mockApi
+    )
+    mockApi.hasPlugin.mockImplementationOnce(() => false)
+    return builder.buildElectron().catch(e => {
+      expect(e).toEqual(
+        new Error(
+          `To build for Electron, Vue CLI Plugin Electron Builder is required. Install it with ${chalk.bold(
+            'vue add electron-builder'
+          )}.`
+        )
+      )
+    })
+  })
+
+  test.each(['mat', 'ios'])('Builds for each theme', theme => {
+    const config = {}
+    config[theme] = { electron: { someArg: 'expected' } }
+    const builder = new Builder(
+      { config: 'default' },
+      { configurations: { default: config } },
+      mockApi
+    )
+    builder.buildElectron()
+    expect(process.env.QUASAR_THEME).toBe(theme)
+    expect(mockApi.service.run).toBeCalledWith(
+      'electron:build',
+      {
+        someArg: 'expected',
+        dest: `dist/electron-${theme}`
+      },
+      // Passes raw args
+      ['First arg is removed', '--someArg', 'expected']
+    )
+  })
+})
+
+test('buildAll', async () => {
+  const builder = new Builder()
+  builder.buildElectron = jest.fn()
+  builder.buildWeb = jest.fn()
+  await builder.buildAll()
+  // Both platforms are built for
+  expect(builder.buildElectron).toBeCalled()
+  expect(builder.buildWeb).toBeCalled()
 })
