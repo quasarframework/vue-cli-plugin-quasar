@@ -100,7 +100,7 @@ module.exports = (api, opts, rootOpts) => {
 
   api.onCreateComplete(() => {
     if (!opts.quasar.all) {
-      extendBabel(api, opts.quasar.theme)
+      extendBabel(api)
     }
 
     let lines = '\n'
