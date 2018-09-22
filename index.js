@@ -75,6 +75,7 @@ module.exports = (api, options) => {
       details: `See https://github.com/quasarframework/vue-cli-plugin-quasar for more details about this plugin.`
     },
     async (args, rawArgs) => {
+      const chalk = require('chalk')
       const commands = {
         web: 'serve',
         electron: 'electron:serve'
@@ -86,6 +87,13 @@ module.exports = (api, options) => {
       }
       if (theme !== 'mat' && theme !== 'ios') {
         throw new Error('Please specify a valid theme')
+      }
+      if (platform === 'electron' && !api.hasPlugin('electron-builder')) {
+        throw new Error(
+          `To build for Electron, Vue CLI Plugin Electron Builder is required. Install it with ${chalk.bold(
+            'vue add electron-builder'
+          )}.`
+        )
       }
       process.env.QUASAR_THEME = theme
 
