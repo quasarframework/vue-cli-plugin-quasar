@@ -47,3 +47,38 @@ describe('build:quasar', () => {
     expect(mockBuilder.buildAll).toBeCalled()
   })
 })
+
+describe.each(['web', 'electron'])('serve:quasar %s', platform => {
+  test.each(['t', 'theme'])('Sets proper theme', async arg => {
+    const args = {}
+
+    // Material theme
+    args[arg] = 'mat'
+    await runCommand('serve:quasar', {}, args)
+    expect(process.env.QUASAR_THEME).toBe('mat')
+
+    // Ios theme
+    args[arg] = 'ios'
+    await runCommand('serve:quasar', {}, args)
+    expect(process.env.QUASAR_THEME).toBe('ios')
+  })
+
+  test.each([{ p: platform }, { platform }])(
+    'Uses platform set in args',
+    async args => {
+      const serveCommands = {
+        web: 'serve',
+        electron: 'electron:serve'
+      }
+      await runCommand('serve:quasar', {}, args)
+      expect(serviceRun).toBeCalledWith(serveCommands[platform], { _: [] }, [])
+    }
+  )
+
+  if (platform === 'web') {
+    test('Default platform is web', async () => {
+      await runCommand('serve:quasar', {}, {})
+      expect(serviceRun).toBeCalledWith('serve', { _: [] }, [])
+    })
+  }
+})

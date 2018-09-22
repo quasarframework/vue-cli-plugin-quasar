@@ -48,7 +48,8 @@ module.exports = (api, opts, rootOpts) => {
 
   const pkg = {
     scripts: {
-      build: 'vue-cli-service build:quasar'
+      build: 'vue-cli-service build:quasar',
+      serve: 'vue-cli-service serve:quasar'
     },
     dependencies: {
       'quasar-framework': '^0.17.0',

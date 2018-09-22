@@ -7,7 +7,7 @@ module.exports = (api, options) => {
   }
 
   api.chainWebpack(chain => {
-    const theme = process.env.QUASAR_THEME
+    const theme = process.env.QUASAR_THEME || 'mat'
     const importAll = pluginOptions.importAll
 
     if (!importAll) {
@@ -51,12 +51,13 @@ module.exports = (api, options) => {
 
     chain.performance.maxEntrypointSize(512000)
   })
+
   api.registerCommand(
     'build:quasar',
     {
       description: 'build app with Quasar',
       usage: 'vue-cli-service build:quasar [args]',
-      details: `See https://github.com/quasarframework/vue-cli-plugin-quasar/tree/dev for more details about this plugin.`
+      details: `See https://github.com/quasarframework/vue-cli-plugin-quasar for more details about this plugin.`
     },
     async args => {
       const Builder = require('./lib/builder')
@@ -64,8 +65,51 @@ module.exports = (api, options) => {
       await builder.buildAll()
     }
   )
+
+  api.registerCommand(
+    'serve:quasar',
+    {
+      description: 'serve app with Quasar',
+      usage:
+        'vue-cli-service serve:quasar (-t|--theme) (mat|ios) (-p|--platform) (web|electron)',
+      details: `See https://github.com/quasarframework/vue-cli-plugin-quasar for more details about this plugin.`
+    },
+    async (args, rawArgs) => {
+      const commands = {
+        web: 'serve',
+        electron: 'electron:serve'
+      }
+      const platform = args.p || args.platform || 'web'
+      const theme = args.t || args.theme || 'mat'
+      if (Object.keys(commands).indexOf(platform) === -1) {
+        throw new Error('Please specify a valid platform')
+      }
+      if (theme !== 'mat' && theme !== 'ios') {
+        throw new Error('Please specify a valid theme')
+      }
+      process.env.QUASAR_THEME = theme
+
+      // Remove args
+      delete args.p
+      delete args.platform
+      delete args.t
+      delete args.theme
+      const removeArg = (arg, count) => {
+        const index = rawArgs.indexOf(arg)
+        if (index !== -1) rawArgs.splice(index, count)
+      }
+      removeArg('-p', 2)
+      removeArg('--platform', 2)
+      removeArg('-t', 2)
+      removeArg('-theme', 2)
+
+      // Start dev server
+      api.service.run(commands[platform], args, rawArgs)
+    }
+  )
 }
 
 module.exports.defaultModes = {
-  'build:quasar': 'production'
+  'build:quasar': 'production',
+  'serve:quasar': 'development'
 }
