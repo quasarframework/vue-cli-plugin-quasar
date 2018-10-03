@@ -39,6 +39,7 @@ module.exports = (api, opts, rootOpts) => {
     plugins = []
 
   const
+    quasarPath = api.resolve('./src/quasar.js'),
     tsPath = api.resolve('./src/main.ts'),
     jsPath = api.resolve('./src/main.js'),
     hasTS = fs.existsSync(tsPath)
@@ -99,7 +100,7 @@ module.exports = (api, opts, rootOpts) => {
       extendBabel(api, opts.quasar.theme)
     }
 
-    let lines = '\n'
+    let lines = `import Vue from 'vue'\n`
 
     const
       hasLang = opts.quasar.i18n !== 'en-us',
@@ -178,10 +179,12 @@ module.exports = (api, opts, rootOpts) => {
       const mainLines = content.split(/\r?\n/g).reverse()
 
       const index = mainLines.findIndex(line => line.match(/^import/))
-      mainLines[index] += lines
+      mainLines[index] += `\nimport './quasar'`
 
       content = mainLines.reverse().join('\n')
       fs.writeFileSync(mainPath, content, { encoding: 'utf8' })
+
+      fs.writeFileSync(quasarPath, lines, { encoding: 'utf8' })
     }
 
     if (api.generator.hasPlugin('@vue/cli-plugin-eslint')) {
