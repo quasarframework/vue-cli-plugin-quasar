@@ -14,7 +14,7 @@ describe('constructor', () => {
     ])
   })
 
-  test.each(['web', 'electron', 'cordova'])(
+  test.each(['web', 'electron', 'cordova', 'capacitor'])(
     'Adds %s to targets if arg is passed',
     target => {
       const args = {}

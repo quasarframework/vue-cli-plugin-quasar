@@ -71,14 +71,15 @@ module.exports = (api, options) => {
     {
       description: 'serve app with Quasar',
       usage:
-        'vue-cli-service serve:quasar (-t|--theme) (mat|ios) (-p|--platform) (web|electron)',
+        'vue-cli-service serve:quasar (-t|--theme) (mat|ios) (-p|--platform) (web|electron|capacitor)',
       details: `See https://github.com/quasarframework/vue-cli-plugin-quasar for more details about this plugin.`
     },
     async (args, rawArgs) => {
       const chalk = require('chalk')
       const commands = {
         web: 'serve',
-        electron: 'electron:serve'
+        electron: 'electron:serve',
+        capacitor: 'capacitor:serve'
       }
       const platform = args.p || args.platform || 'web'
       const theme = args.t || args.theme || 'mat'
@@ -92,6 +93,13 @@ module.exports = (api, options) => {
         throw new Error(
           `To build for Electron, Vue CLI Plugin Electron Builder is required. Install it with ${chalk.bold(
             'vue add electron-builder'
+          )}.`
+        )
+      }
+      if (platform === 'capacitor' && !api.hasPlugin('capacitor')) {
+        throw new Error(
+          `To build for Capacitor, Vue CLI Plugin Capacitor Builder is required. Install it with ${chalk.bold(
+            'vue add capacitor'
           )}.`
         )
       }

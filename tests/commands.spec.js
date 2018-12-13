@@ -48,7 +48,7 @@ describe('build:quasar', () => {
   })
 })
 
-describe.each(['web', 'electron'])('serve:quasar %s', platform => {
+describe.each(['web', 'electron', 'capacitor'])('serve:quasar %s', platform => {
   test.each(['t', 'theme'])('Sets proper theme', async arg => {
     const args = {}
 
@@ -68,7 +68,8 @@ describe.each(['web', 'electron'])('serve:quasar %s', platform => {
     async args => {
       const serveCommands = {
         web: 'serve',
-        electron: 'electron:serve'
+        electron: 'electron:serve',
+        capacitor: 'capacitor:serve'
       }
       await runCommand('serve:quasar', {}, args)
       expect(serviceRun).toBeCalledWith(serveCommands[platform], { _: [] }, [])
