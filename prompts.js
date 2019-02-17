@@ -1,5 +1,12 @@
 module.exports = [
   {
+    name: 'quasar.v1',
+    type: 'confirm',
+    message: 'Use Quasar v1-beta:',
+    value: 'v1',
+    default: false
+  },
+  {
     name: 'quasar.theme',
     type: 'list',
     message: 'Select Quasar Theme:',
@@ -12,13 +19,15 @@ module.exports = [
         name: 'iOS Theme',
         value: 'ios'
       }
-    ]
+    ],
+    when: answers => !answers.quasar.v1
   },
   {
     name: 'quasar.replaceComponents',
     type: 'confirm',
     when: 'router',
-    message: 'Allow Quasar to replace App.vue, About.vue, Home.vue and (if available) router.js?',
+    message:
+      'Allow Quasar to replace App.vue, About.vue, Home.vue and (if available) router.js?',
     default: true
   },
   {
@@ -63,7 +72,8 @@ module.exports = [
   {
     name: 'quasar.i18n',
     type: 'string',
-    message: 'Quasar i18n lang - one from https://github.com/quasarframework/quasar/tree/dev/i18n',
+    message:
+      'Quasar i18n lang - one from https://github.com/quasarframework/quasar/tree/dev/i18n',
     default: 'en-us',
     validate: opt => opt && opt.length >= 2
   },
