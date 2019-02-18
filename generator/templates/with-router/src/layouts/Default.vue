@@ -1,0 +1,111 @@
+<template>
+  <q-layout view="lHh Lpr lFf">
+    <q-header elevated class="glossy">
+      <q-toolbar>
+        <q-btn
+          flat
+          dense
+          round
+          @click="leftDrawerOpen = !leftDrawerOpen"
+          aria-label="Menu"
+          icon="<% if (quasar.iconSet === "material-icons") { %>menu<% } else if (quasar.iconSet === "fontawesome") { %>fas fa-bars<% } else if (quasar.iconSet === "ionicons") { %>ion-menu<% } else if (quasar.iconSet === "mdi") { %>mdi-menu<% } else if (quasar.iconSet === "eva-icons") { %>eva-menu-outline<% } %>"
+        />
+
+        <q-toolbar-title>
+          Quasar App
+        </q-toolbar-title>
+
+        <div>Quasar v{{ $q.version }}</div>
+      </q-toolbar>
+    </q-header>
+
+    <q-drawer
+      v-model="leftDrawerOpen"
+      bordered
+      content-class="bg-grey-2"
+    >
+      <q-list>
+        <q-item-label header>Navigation</q-item-label>
+        <q-item to="/" exact>
+          <q-item-section avatar>
+            <q-icon name="<% if (quasar.iconSet === "material-icons") { %>home<% } else if (quasar.iconSet === "fontawesome") { %>fas fa-home<% } else if (quasar.iconSet === "ionicons") { %>ion-home<% } else if (quasar.iconSet === "mdi") { %>mdi-home<% } else if (quasar.iconSet === "eva-icons") { %>eva-home-outline<% } %>" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Home</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item to="/about" exact>
+          <q-item-section avatar>
+            <q-icon name="<% if (quasar.iconSet === "material-icons") { %>info<% } else if (quasar.iconSet === "fontawesome") { %>fas fa-info<% } else if (quasar.iconSet === "ionicons") { %>ion-information-circle-outline<% } else if (quasar.iconSet === "mdi") { %>mdi-information-outline<% } else if (quasar.iconSet === "eva-icons") { %>eva-info-outline<% } %>" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>About</q-item-label>
+          </q-item-section>
+        </q-item>
+
+        <q-item-label header>Essential Links</q-item-label>
+        <q-item clickable tag="a" target="_blank" href="https://v1.quasar-framework.org">
+          <q-item-section avatar>
+            <q-icon name="<% if (quasar.iconSet === "material-icons") { %>school<% } else if (quasar.iconSet === "fontawesome") { %>fas fa-graduation-cap<% } else if (quasar.iconSet === "ionicons") { %>ion-school<% } else if (quasar.iconSet === "mdi") { %>mdi-school<% } else if (quasar.iconSet === "eva-icons") { %>eva-file-text-outline<% } %>" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Docs</q-item-label>
+            <q-item-label caption>v1.quasar-framework.org</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable tag="a" target="_blank" href="https://github.com/quasarframework/">
+          <q-item-section avatar>
+            <q-icon name="<% if (quasar.iconSet === "material-icons") { %>code<% } else if (quasar.iconSet === "fontawesome") { %>fas fa-code<% } else if (quasar.iconSet === "ionicons") { %>ion-code<% } else if (quasar.iconSet === "mdi") { %>mdi-code-tags<% } else if (quasar.iconSet === "eva-icons") { %>eva-github-outline<% } %>" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Github</q-item-label>
+            <q-item-label caption>github.com/quasarframework</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable tag="a" target="_blank" href="http://chat.quasar-framework.org">
+          <q-item-section avatar>
+            <q-icon name="<% if (quasar.iconSet === "material-icons") { %>chat<% } else if (quasar.iconSet === "fontawesome") { %>fas fa-comments<% } else if (quasar.iconSet === "ionicons") { %>ion-chatbubbles<% } else if (quasar.iconSet === "mdi") { %>mdi-message-text<% } else if (quasar.iconSet === "eva-icons") { %>eva-message-square-outline<% } %>" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Discord Chat Channel</q-item-label>
+            <q-item-label caption>chat.quasar-framework.org</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable tag="a" target="_blank" href="https://forum.quasar-framework.org">
+          <q-item-section avatar>
+            <q-icon name="<% if (quasar.iconSet === "material-icons") { %>forum<% } else if (quasar.iconSet === "fontawesome") { %>far fa-clipboard<% } else if (quasar.iconSet === "ionicons") { %>ion-chatboxes<% } else if (quasar.iconSet === "mdi") { %>mdi-forum<% } else if (quasar.iconSet === "eva-icons") { %>eva-people-outline<% } %>" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Forum</q-item-label>
+            <q-item-label caption>forum.quasar-framework.org</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item clickable tag="a" target="_blank" href="https://twitter.com/quasarframework">
+          <q-item-section avatar>
+            <q-icon name="<% if (quasar.iconSet === "material-icons") { %>rss_feed<% } else if (quasar.iconSet === "fontawesome") { %>fab fa-twitter<% } else if (quasar.iconSet === "ionicons") { %>ion-logo-twitter<% } else if (quasar.iconSet === "mdi") { %>mdi-twitter<% } else if (quasar.iconSet === "eva-icons") { %>eva-twitter-outline<% } %>" />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>Twitter</q-item-label>
+            <q-item-label caption>@quasarframework</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </q-drawer>
+
+    <q-page-container>
+      <router-view />
+    </q-page-container>
+  </q-layout>
+</template>
+
+<script>
+export default {
+  name: 'LayoutDefault',
+
+  data () {
+    return {
+      leftDrawerOpen: this.$q.platform.is.desktop
+    }
+  }
+}
+</script>
