@@ -16,6 +16,10 @@ module.exports = (api, options) => {
     chain.resolve.alias
       .set(
         'quasar-variables',
+        api.resolve('src/styles/quasar.variables.styl')
+      )
+      .set(
+        'quasar-variables-styl',
         api.resolve('node_modules/quasar/src/css/variables.styl')
       )
       .set(
