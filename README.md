@@ -8,7 +8,7 @@
 
 <a href="https://badge.fury.io/js/vue-cli-plugin-quasar" target="_blank"><img src="https://badge.fury.io/js/vue-cli-plugin-quasar.svg"></a>
 [![Join the chat at https://discord.gg/5TDhbDg](https://img.shields.io/badge/chat-on%20discord-7289da.svg)](https://discord.gg/5TDhbDg)
-<a href="http://forum.quasar-framework.org" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
+<a href="https://forum.quasar.dev" target="_blank"><img src="https://img.shields.io/badge/community-forum-brightgreen.svg"></a>
 
 Please submit a PR to https://github.com/quasarframework/quasar-awesome with your website/app/Quasar tutorial/video etc. Thank you!
 
@@ -40,13 +40,9 @@ Your Vue config (in package.json or vue.config.js file, depending on what you ch
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md). If you'd like to join them, check out [Quasar Framework's Patreon campaign](https://www.patreon.com/quasarframework).
 
-### Proudly sponsored by:
-
-[![Truelogic](http://quasar-framework.org/images/logo_truelogic.png)](http://truelogic.com)
-
 ## Documentation
 
-Head on to the Quasar Framework official website: [http://quasar-framework.org](http://quasar-framework.org)
+Head on to the Quasar Framework official website: [https://quasar.dev](https://quasar.dev)
 
 ## Stay in Touch
 
@@ -54,13 +50,11 @@ For latest releases and announcements, follow on Twitter: [@quasarframework](htt
 
 ## Community Forum
 
-Head on to the official community forum: [http://forum.quasar-framework.org](http://forum.quasar-framework.org)
+Head on to the official community forum: [https://forum.quasar.dev](https://forum.quasar.dev)
 
 ## Quasar Repositories
 
-* [Quasar Framework](https://github.com/quasarframework/quasar)
-* [Quasar CLI](https://github.com/quasarframework/quasar-cli)
-* [Quasar Play App](https://github.com/quasarframework/quasar-play)
+* [Quasar Framework](https://github.com/quasarframework)
 
 ## Contributing
 
@@ -70,7 +64,7 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 
 **Please use the appropriate Github repo to report issues. See "Related Components" above.** For example, a bug related to CLI should be reported to the CLI repo, one related to build issues to Quasar Framework Templates repo and so on.
 
-- The issue list of the repository is **exclusively** for bug reports and feature requests. For anything else please use the [Community Forum](http://forum.quasar-framework.org).
+- The issue list of the repository is **exclusively** for bug reports and feature requests. For anything else please use the [Community Forum](https://forum.quasar.dev).
 
 - Try to search for your issue, it may have already been fixed in the development branch or it may have a resolution.
 
@@ -79,8 +73,6 @@ I'm excited if you want to contribute to Quasar under any form (report bugs, wri
 - It is **required** that you clearly describe the steps necessary to reproduce the issue you are running into. Issues with no clear repro steps will not be triaged. If an issue labeled "need repro" receives no further input from the issue author for more than 5 days, it will be closed.
 
 - If your issue is resolved but still open, don’t hesitate to close it. In case you found a solution by yourself, it could be helpful to explain how you fixed it.
-
-Read more [here](http://quasar-framework.org/guide/quasar-contribution-guide.html).
 
 ## License
 

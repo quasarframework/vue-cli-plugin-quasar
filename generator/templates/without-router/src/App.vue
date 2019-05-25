@@ -26,13 +26,13 @@
     >
       <q-list>
         <q-item-label header>Essential Links</q-item-label>
-        <q-item clickable tag="a" target="_blank" href="https://v1.quasar-framework.org">
+        <q-item clickable tag="a" target="_blank" href="https://quasar.dev">
           <q-item-section avatar>
             <q-icon name="<% if (quasar.iconSet === "material-icons") { %>school<% } else if (quasar.iconSet === "fontawesome") { %>fas fa-graduation-cap<% } else if (quasar.iconSet === "ionicons") { %>ion-school<% } else if (quasar.iconSet === "mdi") { %>mdi-school<% } else if (quasar.iconSet === "eva-icons") { %>eva-file-text-outline<% } %>" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Docs</q-item-label>
-            <q-item-label caption>v1.quasar-framework.org</q-item-label>
+            <q-item-label caption>quasar.dev</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable tag="a" target="_blank" href="https://github.com/quasarframework/">
@@ -44,22 +44,22 @@
             <q-item-label caption>github.com/quasarframework</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="http://chat.quasar-framework.org">
+        <q-item clickable tag="a" target="_blank" href="https://chat.quasar.dev">
           <q-item-section avatar>
             <q-icon name="<% if (quasar.iconSet === "material-icons") { %>chat<% } else if (quasar.iconSet === "fontawesome") { %>fas fa-comments<% } else if (quasar.iconSet === "ionicons") { %>ion-chatbubbles<% } else if (quasar.iconSet === "mdi") { %>mdi-message-text<% } else if (quasar.iconSet === "eva-icons") { %>eva-message-square-outline<% } %>" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Discord Chat Channel</q-item-label>
-            <q-item-label caption>chat.quasar-framework.org</q-item-label>
+            <q-item-label caption>chat.quasar.dev</q-item-label>
           </q-item-section>
         </q-item>
-        <q-item clickable tag="a" target="_blank" href="https://forum.quasar-framework.org">
+        <q-item clickable tag="a" target="_blank" href="https://forum.quasar.dev">
           <q-item-section avatar>
             <q-icon name="<% if (quasar.iconSet === "material-icons") { %>forum<% } else if (quasar.iconSet === "fontawesome") { %>far fa-clipboard<% } else if (quasar.iconSet === "ionicons") { %>ion-chatboxes<% } else if (quasar.iconSet === "mdi") { %>mdi-forum<% } else if (quasar.iconSet === "eva-icons") { %>eva-people-outline<% } %>" />
           </q-item-section>
           <q-item-section>
             <q-item-label>Forum</q-item-label>
-            <q-item-label caption>forum.quasar-framework.org</q-item-label>
+            <q-item-label caption>forum.quasar.dev</q-item-label>
           </q-item-section>
         </q-item>
         <q-item clickable tag="a" target="_blank" href="https://twitter.com/quasarframework">
