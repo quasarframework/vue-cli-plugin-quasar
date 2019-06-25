@@ -1,6 +1,6 @@
 {
   "name": "vue-cli-plugin-quasar",
-  "version": "1.0.0-rc.1",
+  "version": "1.0.0-rc.2",
   "description": "Quasar Framework plugin for Vue CLI 3",
   "main": "index.js",
   "scripts": {
