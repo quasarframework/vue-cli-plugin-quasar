@@ -9,7 +9,7 @@ module.exports = (api, options) => {
     if (!treeShake) {
       chain.resolve.alias.set(
         'quasar$',
-        api.resolve('node_modules/quasar/dist/quasar.esm.js')
+        'quasar/dist/quasar.esm.js'
       )
     }
 
@@ -20,15 +20,15 @@ module.exports = (api, options) => {
       )
       .set(
         'quasar-variables-styl',
-        api.resolve('node_modules/quasar/src/css/variables.styl')
+        'quasar/src/css/variables.styl'
       )
       .set(
         'quasar-styl',
-        api.resolve('node_modules/quasar/dist/quasar.styl')
+        'quasar/dist/quasar.styl'
       )
       .set(
         'quasar-addon-styl',
-        api.resolve('node_modules/quasar/src/css/flex-addon.styl')
+        'quasar/src/css/flex-addon.styl'
       )
 
     chain.performance.maxEntrypointSize(treeShake ? 512000 : 1024000)
