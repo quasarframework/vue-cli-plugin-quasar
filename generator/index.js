@@ -1,15 +1,16 @@
-const
-  fs = require('fs'),
+const fs = require('fs'),
   extendPluginOptions = require('../lib/extendPluginOptions'),
   extendBabel = require('../lib/extendBabel')
 
 const message = `
-Documentation can be found at: https://quasar-framework.org
+Documentation can be found at: https://quasar.dev
 
-Quasar is relying on donations to evolve. We'd be very grateful if you can
-take a look at: https://www.patreon.com/quasarframework
-Any amount is very welcomed.
-If invoices are required, please first contact razvan.stoenescu@gmail.com
+Quasar is relying on donations to evolve. We'd be very grateful
+if you can read our manifest on "Why donations are important":
+https://quasar.dev/why-donate
+Donation campaign: https://donate.quasar.dev Any amount is very
+welcomed. If invoices are required, please first contact
+razvan@quasar.dev
 
 Please give us a star on Github if you appreciate our work:
 https://github.com/quasarframework/quasar
@@ -17,26 +18,31 @@ https://github.com/quasarframework/quasar
 Enjoy! - Quasar Team
 `
 
-module.exports = (api, opts, rootOpts) => {
-  const
-    components = [
-      'QBtn',
-      'QLayout',
-      'QLayoutHeader',
-      'QLayoutDrawer',
-      'QPage',
-      'QPageContainer',
-      'QToolbar',
-      'QToolbarTitle',
-      'QList',
-      'QListHeader',
-      'QItemSeparator',
-      'QItem',
-      'QItemSide',
-      'QItemMain',
-    ],
-    directives = [],
-    plugins = []
+const iconMap = {
+  ionicons: 'ionicons-v4',
+  fontawesome: 'fontawesome-v5',
+  mdi: 'mdi-v3'
+}
+
+module.exports = (api, opts) => {
+  const components = [
+    'QLayout',
+    'QHeader',
+    'QDrawer',
+    'QPageContainer',
+    'QPage',
+    'QToolbar',
+    'QToolbarTitle',
+    'QBtn',
+    'QIcon',
+    'QList',
+    'QItem',
+    'QItemSection',
+    'QItemLabel'
+  ]
+
+  const directives = []
+  const plugins = []
 
   const
     quasarPath = api.resolve('./src/quasar.js'),
@@ -44,14 +50,16 @@ module.exports = (api, opts, rootOpts) => {
     jsPath = api.resolve('./src/main.js'),
     hasTS = fs.existsSync(tsPath)
 
+  const dependencies = {
+    quasar: '^1.0.0-beta.1',
+    '@quasar/extras': '^1.0.0'
+  }
+
   const deps = {
-    dependencies: {
-      'quasar-framework': '^0.17.0',
-      'quasar-extras': '^2.0.4'
-    },
+    dependencies,
     devDependencies: {
       'babel-plugin-transform-imports': '1.5.0',
-      'stylus': '^0.54.5',
+      stylus: '^0.54.5',
       'stylus-loader': '^3.0.2'
     }
   }
@@ -64,47 +72,52 @@ module.exports = (api, opts, rootOpts) => {
 
   // modify plugin options
   extendPluginOptions(api, (pluginOptions, transpileDependencies) => {
-    pluginOptions.quasar = {
-      theme: opts.quasar.theme
-    }
+    pluginOptions.quasar = pluginOptions.quasar || {}
+
     if (opts.quasar.rtlSupport) {
-      pluginOptions.quasar.rtlSupport = true
-    }
-    if (opts.quasar.all) {
-      pluginOptions.quasar.importAll = true
+      pluginOptions.quasar.rtlSupport = opts.quasar.rtlSupport
     }
 
-    transpileDependencies.push(/[\\/]node_modules[\\/]quasar-framework[\\/]/)
+    if (opts.quasar.treeShake) {
+      pluginOptions.quasar.treeShake = opts.quasar.treeShake
+    }
+
+    transpileDependencies.push(/[\\/]node_modules[\\/]quasar[\\/]/)
 
     return { pluginOptions, transpileDependencies }
   })
 
   api.render('./templates/common')
+
   if (opts.quasar.rtlSupport) {
     api.render('./templates/rtl')
   }
+
   if (opts.quasar.replaceComponents) {
-    const
-      extension = hasTS ? 'ts' : 'js',
+    const extension = hasTS ? 'ts' : 'js',
       routerFile = api.resolve(`src/router.${extension}`),
       hasRouter = fs.existsSync(routerFile)
 
-    api.render(`./templates/with${hasRouter ? '' : 'out'}-router`, opts)
+    api.render(`./templates/with${hasRouter ? '' : 'out'}-router-base`, opts)
+    api.render(
+      `./templates/with${hasRouter ? '' : 'out'}-router`,
+      opts
+    )
     if (hasRouter) {
       api.render(`./templates/with-router-${extension}`)
     }
   }
 
   api.onCreateComplete(() => {
-    if (!opts.quasar.all) {
-      extendBabel(api, opts.quasar.theme)
+    if (opts.quasar.treeShake) {
+      extendBabel(api)
     }
 
     let lines = `import Vue from 'vue'\n`
 
     const
-      hasLang = opts.quasar.i18n !== 'en-us',
-      hasIconSet = opts.quasar.iconSet !== 'material-icons'
+      hasIconSet = opts.quasar.iconSet !== 'material-icons',
+      hasLang = opts.quasar.lang !== 'en-us'
 
     if (!opts.quasar.features.includes(opts.quasar.iconSet)) {
       opts.quasar.features.push(opts.quasar.iconSet)
@@ -113,30 +126,38 @@ module.exports = (api, opts, rootOpts) => {
     lines += `\nimport './styles/quasar.styl'`
 
     if (opts.quasar.features.includes('ie')) {
-      lines += `\nimport 'quasar-framework/dist/quasar.ie.polyfills'`
+      lines += `\nimport 'quasar/dist/quasar.ie.polyfills'`
     }
+
     if (hasIconSet) {
-      lines += `\nimport iconSet from 'quasar-framework/icons/${opts.quasar.iconSet}'`
+      const set = iconMap[opts.quasar.iconSet] || opts.quasar.iconSet
+      lines += `\nimport iconSet from 'quasar/icon-set/${set}.js'`
     }
+
     if (hasLang) {
-      lines += `\nimport lang from 'quasar-framework/i18n/${opts.quasar.i18n}'`
+      lines += `\nimport lang from 'quasar/lang/${opts.quasar.lang}.js'`
     }
+
     opts.quasar.features
       .filter(feat => feat !== 'ie')
       .forEach(feat => {
-        lines += `\nimport 'quasar-extras/${feat}'`
+        feat = iconMap[feat] || feat
+        lines += `\nimport '@quasar/extras/${feat}/${feat}.css'`
       })
 
     // build import
     lines += `\nimport `
-    if (opts.quasar.all) {
-      lines += `Quasar`
-    }
-    else {
+    if (opts.quasar.treeShake) {
       lines += `{\n  Quasar, `
-      components.concat(directives).concat(plugins)
-        .forEach(part => { lines += `\n  ${part},` })
+      components
+        .concat(directives)
+        .concat(plugins)
+        .forEach(part => {
+          lines += `\n  ${part},`
+        })
       lines += `\n}`
+    } else {
+      lines += `Quasar`
     }
     lines += ` from 'quasar'`
 
@@ -144,29 +165,32 @@ module.exports = (api, opts, rootOpts) => {
     lines += `\n\nVue.use(Quasar, {`
     lines += `\n  config: {}`
 
-    // if not 'all' we want to include specific defaults
-    if (!opts.quasar.all) {
-      lines+= ',\n  components: {'
-      components
-        .forEach(part => { lines += `\n    ${part},` })
+    // if tree-shake was chosen then we want to include specific defaults
+    if (opts.quasar.treeShake) {
+      lines += ',\n  components: {'
+      components.forEach(part => {
+        lines += `\n    ${part},`
+      })
       lines += `\n  }`
 
-      lines+= ',\n  directives: {'
-      directives
-        .forEach(part => { lines += `\n   ${part},` })
+      lines += ',\n  directives: {'
+      directives.forEach(part => {
+        lines += `\n   ${part},`
+      })
       lines += `\n  }`
 
-      lines+= ',\n  plugins: {'
-      plugins
-        .forEach(part => { lines += `\n   ${part},` })
+      lines += ',\n  plugins: {'
+      plugins.forEach(part => {
+        lines += `\n   ${part},`
+      })
       lines += `\n  }`
     }
 
     if (hasLang) {
-      lines += `, i18n: lang`
+      lines += `,\n  lang: lang`
     }
     if (hasIconSet) {
-      lines += `, iconSet: iconSet`
+      lines += `,\n  iconSet: iconSet`
     }
 
     lines += `\n })`

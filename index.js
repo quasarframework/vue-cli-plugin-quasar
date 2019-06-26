@@ -4,41 +4,33 @@ module.exports = (api, options) => {
   }
 
   api.chainWebpack(chain => {
-    const
-      theme = options.pluginOptions.quasar.theme,
-      importAll = options.pluginOptions.quasar.importAll
+    const treeShake = options.pluginOptions.quasar.treeShake
 
-    if (!importAll) {
-      chain.resolve.extensions
-        .prepend(`.${theme}.js`)
-
-      chain.plugin('define')
-        .tap(args => {
-          const { 'process.env': env, ...rest } = args[0]
-          return [{
-            'process.env': Object.assign(
-              {},
-              env,
-              { THEME: JSON.stringify(theme) }
-            ),
-            ...rest
-          }]
-        })
+    if (!treeShake) {
+      chain.resolve.alias.set(
+        'quasar$',
+        'quasar/dist/quasar.esm.js'
+      )
     }
 
     chain.resolve.alias
       .set(
-        'quasar',
-        importAll
-          ? api.resolve(`node_modules/quasar-framework/dist/quasar.${theme}.esm.js`)
-          : 'quasar-framework'
+        'quasar-variables',
+        api.resolve('src/styles/quasar.variables.styl')
       )
-      .set('variables', api.resolve(`src/styles/quasar.variables.styl`))
-      .set('quasar-variables', api.resolve(`node_modules/quasar-framework/src/css/core.variables.styl`))
-      .set('quasar-styl', api.resolve(`node_modules/quasar-framework/dist/quasar.${theme}.styl`))
-      .set('quasar-addon-styl', api.resolve(`node_modules/quasar-framework/src/css/flex-addon.styl`))
+      .set(
+        'quasar-variables-styl',
+        'quasar/src/css/variables.styl'
+      )
+      .set(
+        'quasar-styl',
+        'quasar/dist/quasar.styl'
+      )
+      .set(
+        'quasar-addon-styl',
+        'quasar/src/css/flex-addon.styl'
+      )
 
-    chain.performance
-      .maxEntrypointSize(512000)
+    chain.performance.maxEntrypointSize(treeShake ? 512000 : 1024000)
   })
 }

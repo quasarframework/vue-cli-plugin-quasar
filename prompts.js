@@ -1,31 +1,18 @@
 module.exports = [
   {
-    name: 'quasar.theme',
-    type: 'list',
-    message: 'Select Quasar Theme:',
-    choices: [
-      {
-        name: 'Material Design',
-        value: 'mat'
-      },
-      {
-        name: 'iOS Theme',
-        value: 'ios'
-      }
-    ]
-  },
-  {
     name: 'quasar.replaceComponents',
     type: 'confirm',
     when: 'router',
-    message: 'Allow Quasar to replace App.vue, About.vue, Home.vue and (if available) router.js?',
+    message:
+      'Allow Quasar to replace App.vue, About.vue, Home.vue and (if available) router.js?',
     default: true
   },
   {
-    name: 'quasar.all',
+    name: 'quasar.treeShake',
     type: 'confirm',
-    message: 'Import all Quasar components, directives and plugins?',
-    default: false
+    message:
+      'Treeshake Quasar? (you\'ll need to import the components, directives and plugins that you use yourself)',
+    default: true
   },
   {
     name: 'quasar.rtlSupport',
@@ -36,12 +23,12 @@ module.exports = [
   {
     name: 'quasar.iconSet',
     type: 'list',
-    message: 'Choose Icon Set',
+    message: 'Choose Quasar Icon Set',
     choices: [
       {
         name: 'Material Icons (recommended)',
         value: 'material-icons',
-        short: 'Material Icons'
+        short: 'Material'
       },
       {
         name: 'Fontawesome',
@@ -57,13 +44,19 @@ module.exports = [
         name: 'MDI',
         value: 'mdi',
         short: 'MDI'
+      },
+      {
+        name: 'Eva Icons',
+        value: 'eva-icons',
+        short: 'MDI'
       }
     ]
   },
   {
-    name: 'quasar.i18n',
+    name: 'quasar.lang',
     type: 'string',
-    message: 'Quasar i18n lang - one from https://github.com/quasarframework/quasar/tree/dev/i18n',
+    message:
+      'Quasar language pack - one from https://github.com/quasarframework/quasar/tree/dev/quasar/lang',
     default: 'en-us',
     validate: opt => opt && opt.length >= 2
   },
@@ -72,10 +65,6 @@ module.exports = [
     type: 'checkbox',
     message: 'Select features:',
     choices: [
-      {
-        name: 'Animations',
-        value: 'animate'
-      },
       {
         name: 'IE11 support',
         value: 'ie'
@@ -87,7 +76,7 @@ module.exports = [
       {
         name: 'Material icons',
         value: 'material-icons',
-        short: 'Material Icons'
+        short: 'Material'
       },
       {
         name: 'Fontawesome icons',
@@ -103,6 +92,11 @@ module.exports = [
         name: 'MDI icons',
         value: 'mdi',
         short: 'MDI'
+      },
+      {
+        name: 'Eva icons',
+        value: 'eva-icons',
+        short: 'Eva'
       }
     ]
   }
