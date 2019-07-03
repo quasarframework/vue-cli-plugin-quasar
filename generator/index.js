@@ -51,7 +51,7 @@ module.exports = (api, opts) => {
     hasTS = fs.existsSync(tsPath)
 
   const dependencies = {
-    quasar: '^1.0.0-beta.1',
+    quasar: '^1.0.0',
     '@quasar/extras': '^1.0.0'
   }
 
