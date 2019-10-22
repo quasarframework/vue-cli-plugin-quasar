@@ -82,7 +82,7 @@ module.exports = (api, opts) => {
       pluginOptions.quasar.treeShake = opts.quasar.treeShake
     }
 
-    transpileDependencies.push(/[\\/]node_modules[\\/]quasar[\\/]/)
+    transpileDependencies.push('quasar')
 
     return { pluginOptions, transpileDependencies }
   })
