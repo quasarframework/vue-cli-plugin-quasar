@@ -211,6 +211,17 @@ module.exports = (api, opts) => {
       fs.writeFileSync(quasarPath, lines, { encoding: 'utf8' })
     }
 
+    // Remove unnecessary escape characters (https://github.com/quasarframework/vue-cli-plugin-quasar/issues/20)
+    const vueConfigPath = api.resolve('vue.config.js')
+    if (fs.existsSync(vueConfigPath)) {
+      let vueConfig = fs.readFileSync(api.resolve('vue.config.js'), 'utf8')
+      vueConfig = vueConfig.replace(
+        '/[\\\\\\/]node_modules[\\\\\\/]quasar[\\\\\\/]/',
+        '/[\\\\/]node_modules[\\\\/]quasar[\\\\/]/'
+      )
+      fs.writeFileSync(vueConfigPath, vueConfig)
+    }
+
     if (api.generator.hasPlugin('@vue/cli-plugin-eslint')) {
       const { spawnSync } = require('child_process')
 
