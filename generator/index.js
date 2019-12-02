@@ -21,26 +21,11 @@ Enjoy! - Quasar Team
 const iconMap = {
   ionicons: 'ionicons-v4',
   fontawesome: 'fontawesome-v5',
-  mdi: 'mdi-v3'
+  mdi: 'mdi-v4'
 }
 
 module.exports = (api, opts) => {
-  const components = [
-    'QLayout',
-    'QHeader',
-    'QDrawer',
-    'QPageContainer',
-    'QPage',
-    'QToolbar',
-    'QToolbarTitle',
-    'QBtn',
-    'QIcon',
-    'QList',
-    'QItem',
-    'QItemSection',
-    'QItemLabel'
-  ]
-
+  const components = []
   const directives = []
   const plugins = []
 
@@ -78,9 +63,7 @@ module.exports = (api, opts) => {
       pluginOptions.quasar.rtlSupport = opts.quasar.rtlSupport
     }
 
-    if (opts.quasar.treeShake) {
-      pluginOptions.quasar.treeShake = opts.quasar.treeShake
-    }
+    pluginOptions.quasar.importStrategy = opts.quasar.importStrategy
 
     transpileDependencies.push('quasar')
 
@@ -109,9 +92,7 @@ module.exports = (api, opts) => {
   }
 
   api.onCreateComplete(() => {
-    if (opts.quasar.treeShake) {
-      extendBabel(api)
-    }
+    extendBabel(api)
 
     let lines = `import Vue from 'vue'\n`
 
@@ -147,44 +128,37 @@ module.exports = (api, opts) => {
 
     // build import
     lines += `\nimport `
-    if (opts.quasar.treeShake) {
-      lines += `{\n  Quasar, `
-      components
-        .concat(directives)
-        .concat(plugins)
-        .forEach(part => {
-          lines += `\n  ${part},`
-        })
-      lines += `\n}`
-    } else {
-      lines += `Quasar`
-    }
+    lines += `{\n  Quasar, `
+    components
+      .concat(directives)
+      .concat(plugins)
+      .forEach(part => {
+        lines += `\n  ${part},`
+      })
+    lines += `\n}`
     lines += ` from 'quasar'`
 
     // build Vue.use()
     lines += `\n\nVue.use(Quasar, {`
     lines += `\n  config: {}`
 
-    // if tree-shake was chosen then we want to include specific defaults
-    if (opts.quasar.treeShake) {
-      lines += ',\n  components: {'
-      components.forEach(part => {
-        lines += `\n    ${part},`
-      })
-      lines += `\n  }`
+    lines += ',\n  components: {'
+    components.forEach(part => {
+      lines += `\n    ${part},`
+    })
+    lines += `\n  }`
 
-      lines += ',\n  directives: {'
-      directives.forEach(part => {
-        lines += `\n   ${part},`
-      })
-      lines += `\n  }`
+    lines += ',\n  directives: {'
+    directives.forEach(part => {
+      lines += `\n   ${part},`
+    })
+    lines += `\n  }`
 
-      lines += ',\n  plugins: {'
-      plugins.forEach(part => {
-        lines += `\n   ${part},`
-      })
-      lines += `\n  }`
-    }
+    lines += ',\n  plugins: {'
+    plugins.forEach(part => {
+      lines += `\n   ${part},`
+    })
+    lines += `\n  }`
 
     if (hasLang) {
       lines += `,\n  lang: lang`

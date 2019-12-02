@@ -4,15 +4,6 @@ module.exports = (api, options) => {
   }
 
   api.chainWebpack(chain => {
-    const treeShake = options.pluginOptions.quasar.treeShake
-
-    if (!treeShake) {
-      chain.resolve.alias.set(
-        'quasar$',
-        'quasar/dist/quasar.esm.js'
-      )
-    }
-
     chain.resolve.alias
       .set(
         'quasar-variables',
@@ -31,6 +22,6 @@ module.exports = (api, options) => {
         'quasar/src/css/flex-addon.styl'
       )
 
-    chain.performance.maxEntrypointSize(treeShake ? 512000 : 1024000)
+    chain.performance.maxEntrypointSize(512000)
   })
 }

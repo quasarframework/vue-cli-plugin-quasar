@@ -7,19 +7,54 @@ module.exports = [
       'Allow Quasar to replace App.vue, About.vue, Home.vue and (if available) router.js?',
     default: true
   },
+
   {
-    name: 'quasar.treeShake',
-    type: 'confirm',
-    message:
-      'Treeshake Quasar? (you\'ll need to import the components, directives and plugins that you use yourself)',
-    default: true
+    name: 'quasar.importStrategy',
+    type: 'list',
+    message: 'Pick a Quasar components & directives import strategy: (can be changed later)',
+    choices: [
+      {
+        name: '* Auto-import in-use Quasar components & directives\n    - slightly higher compile time; next to minimum bundle size; most convenient',
+        value: '\'auto\'',
+        short: 'Auto import',
+        checked: true
+      },
+      {
+        name: '* Manually specify what to import\n    - fastest compile time; minimum bundle size; most tedious',
+        value: '\'manual\'',
+        short: 'Manual'
+      }
+    ]
   },
+
   {
-    name: 'quasar.rtlSupport',
-    type: 'confirm',
-    message: 'Use RTL support?',
-    default: false
+    name: 'quasar.cssPreprocessor',
+    type: 'list',
+    message: 'Pick your favorite CSS preprocessor: (can be changed later)',
+    default: 'sass',
+    choices: [
+      {
+        name: 'Sass with indented syntax (recommended)',
+        value: 'sass',
+        short: 'Sass'
+      },
+      {
+        name: 'Sass with SCSS syntax (recommended)',
+        value: 'scss',
+        short: 'SCSS'
+      },
+      {
+        name: 'Stylus',
+        value: 'stylus'
+      },
+      {
+        name: 'None (the others will still be available)',
+        value: 'none',
+        short: 'None'
+      }
+    ]
   },
+
   {
     name: 'quasar.iconSet',
     type: 'list',
@@ -29,6 +64,21 @@ module.exports = [
         name: 'Material Icons (recommended)',
         value: 'material-icons',
         short: 'Material'
+      },
+      {
+        name: 'Material Icons Outlined',
+        value: 'material-icons-outlined',
+        short: 'Material Outlined'
+      },
+      {
+        name: 'Material Icons Round',
+        value: 'material-icons-round',
+        short: 'Material Round'
+      },
+      {
+        name: 'Material Icons Sharp',
+        value: 'material-icons-sharp',
+        short: 'Material Sharp'
       },
       {
         name: 'Fontawesome',
@@ -48,18 +98,27 @@ module.exports = [
       {
         name: 'Eva Icons',
         value: 'eva-icons',
-        short: 'MDI'
+        short: 'Eva'
       }
     ]
   },
+
   {
     name: 'quasar.lang',
     type: 'string',
     message:
-      'Quasar language pack - one from https://github.com/quasarframework/quasar/tree/dev/quasar/lang',
+      'Default Quasar language pack - one from https://github.com/quasarframework/quasar/tree/dev/ui/lang',
     default: 'en-us',
     validate: opt => opt && opt.length >= 2
   },
+
+  {
+    name: 'quasar.rtlSupport',
+    type: 'confirm',
+    message: 'Use RTL support?',
+    default: false
+  },
+
   {
     name: 'quasar.features',
     type: 'checkbox',
@@ -74,27 +133,42 @@ module.exports = [
         value: 'roboto-font'
       },
       {
-        name: 'Material icons',
+        name: 'Material Icons (recommended)',
         value: 'material-icons',
         short: 'Material'
       },
       {
-        name: 'Fontawesome icons',
+        name: 'Material Icons Outlined',
+        value: 'material-icons-outlined',
+        short: 'Material Outlined'
+      },
+      {
+        name: 'Material Icons Round',
+        value: 'material-icons-round',
+        short: 'Material Round'
+      },
+      {
+        name: 'Material Icons Sharp',
+        value: 'material-icons-sharp',
+        short: 'Material Sharp'
+      },
+      {
+        name: 'Fontawesome',
         value: 'fontawesome',
         short: 'Fontawesome'
       },
       {
-        name: 'Ionicons icons',
+        name: 'Ionicons',
         value: 'ionicons',
         short: 'Ionicons'
       },
       {
-        name: 'MDI icons',
+        name: 'MDI',
         value: 'mdi',
         short: 'MDI'
       },
       {
-        name: 'Eva icons',
+        name: 'Eva Icons',
         value: 'eva-icons',
         short: 'Eva'
       }
