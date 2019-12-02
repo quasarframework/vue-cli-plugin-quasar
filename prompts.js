@@ -14,13 +14,13 @@ module.exports = [
     message: 'Pick a Quasar components & directives import strategy: (can be changed later)',
     choices: [
       {
-        name: '* Auto-import in-use Quasar components & directives\n    - slightly higher compile time; next to minimum bundle size; most convenient',
-        value: '\'auto\'',
-        short: 'Auto import',
+        name: '* Auto-import in-use Quasar components & directives (kebab-case, can be later changed to \'pascal\' or \'combined\')',
+        value: 'kebab',
+        short: 'Auto import (kebab-case)',
         checked: true
       },
       {
-        name: '* Manually specify what to import\n    - fastest compile time; minimum bundle size; most tedious',
+        name: '* Manually specify what to import',
         value: '\'manual\'',
         short: 'Manual'
       }

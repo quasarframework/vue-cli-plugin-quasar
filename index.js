@@ -1,3 +1,5 @@
+const path = require('path')
+
 module.exports = (api, options) => {
   if (options.pluginOptions.quasar.rtlSupport) {
     process.env.QUASAR_RTL = true
@@ -23,5 +25,15 @@ module.exports = (api, options) => {
       )
 
     chain.performance.maxEntrypointSize(512000)
+
+    const strategy = options.pluginOptions.quasar.importStrategy
+
+    if (['kebab', 'pascal', 'combined'].includes(strategy)) {
+      chain.module.rule('vue')
+        .use('quasar-auto-import')
+        .loader(path.join(__dirname, 'lib/loader.auto-import.js'))
+        .options(strategy)
+        .before('cache-loader')
+    }
   })
 }
