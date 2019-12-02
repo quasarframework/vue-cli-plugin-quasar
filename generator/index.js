@@ -24,11 +24,11 @@ const iconMap = {
   mdi: 'mdi-v4'
 }
 
-module.exports = (api, opts) => {
-  const components = []
-  const directives = []
-  const plugins = []
+const components = []
+const directives = []
+const plugins = []
 
+module.exports = (api, opts) => {
   const
     quasarPath = api.resolve('./src/quasar.js'),
     tsPath = api.resolve('./src/main.ts'),
@@ -97,6 +97,7 @@ module.exports = (api, opts) => {
     let lines = `import Vue from 'vue'\n`
 
     const
+      autoImport = opts.quasar.importStrategy !== 'manual',
       hasIconSet = opts.quasar.iconSet !== 'material-icons',
       hasLang = opts.quasar.lang !== 'en-us'
 
@@ -127,32 +128,46 @@ module.exports = (api, opts) => {
       })
 
     // build import
-    lines += `\nimport `
-    lines += `{\n  Quasar, `
-    components
-      .concat(directives)
-      .concat(plugins)
-      .forEach(part => {
-        lines += `\n  ${part},`
-      })
-    lines += `\n}`
-    lines += ` from 'quasar'`
+    if (autoImport) {
+      lines += `\nimport { Quasar } from 'quasar'`
+    }
+    else {
+      lines += `\nimport {\n  Quasar, `
+      components
+        .concat(directives)
+        .concat(plugins)
+        .forEach(part => {
+          lines += `\n  ${part},`
+        })
+      lines += `\n}`
+      lines += ` from 'quasar'`
+    }
 
     // build Vue.use()
     lines += `\n\nVue.use(Quasar, {`
     lines += `\n  config: {}`
 
     lines += ',\n  components: {'
-    components.forEach(part => {
-      lines += `\n    ${part},`
-    })
-    lines += `\n  }`
+    if (autoImport) {
+      lines += ` /* not needed if importStrategy is not 'manual' */ }`
+    }
+    else {
+      components.forEach(part => {
+        lines += `\n    ${part},`
+      })
+      lines += `\n  }`
+    }
 
     lines += ',\n  directives: {'
-    directives.forEach(part => {
-      lines += `\n   ${part},`
-    })
-    lines += `\n  }`
+    if (autoImport) {
+      lines += ` /* not needed if importStrategy is not 'manual' */ }`
+    }
+    else {
+      directives.forEach(part => {
+        lines += `\n   ${part},`
+      })
+      lines += `\n  }`
+    }
 
     lines += ',\n  plugins: {'
     plugins.forEach(part => {

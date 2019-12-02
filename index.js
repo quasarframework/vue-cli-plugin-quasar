@@ -35,5 +35,11 @@ module.exports = (api, options) => {
         .options(strategy)
         .before('cache-loader')
     }
+    else if (![void 0, 'manual'].includes(strategy)) {
+      console.error(`Incorrect setting for quasar > importStrategy (${strategy})`)
+      console.error(`Use one of: 'kebab', 'pascal', 'combined', 'manual'.`)
+      console.log()
+      process.exit(1)
+    }
   })
 }
