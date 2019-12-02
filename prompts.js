@@ -14,7 +14,7 @@ module.exports = [
     message: 'Pick a Quasar components & directives import strategy: (can be changed later)',
     choices: [
       {
-        name: `Auto-import in-use Quasar components & directives (kebab-case, can be later changed to 'pascal' or 'combined')`,
+        name: `Auto-import in-use Quasar components & directives (kebab-case, can be later changed to 'pascal'/'combined'/'manual')`,
         value: 'kebab',
         short: 'Auto import (kebab-case)',
         checked: true
@@ -30,7 +30,7 @@ module.exports = [
   {
     name: 'quasar.cssPreprocessor',
     type: 'list',
-    message: 'Pick your favorite CSS preprocessor: (can be changed later)',
+    message: 'Pick your favorite CSS preprocessor:',
     default: 'sass',
     choices: [
       {
@@ -45,10 +45,11 @@ module.exports = [
       },
       {
         name: 'Stylus',
-        value: 'stylus'
+        value: 'styl',
+        short: 'Stylus'
       },
       {
-        name: 'None (the others will still be available)',
+        name: `None (style variables won't be available)`,
         value: 'none',
         short: 'None'
       }

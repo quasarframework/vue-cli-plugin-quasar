@@ -24,7 +24,22 @@ const iconMap = {
   mdi: 'mdi-v4'
 }
 
-const components = []
+const components = [
+  'QLayout',
+  'QHeader',
+  'QDrawer',
+  'QPageContainer',
+  'QPage',
+  'QToolbar',
+  'QToolbarTitle',
+  'QBtn',
+  'QIcon',
+  'QList',
+  'QItem',
+  'QItemSection',
+  'QItemLabel'
+]
+
 const directives = []
 const plugins = []
 
@@ -43,10 +58,21 @@ module.exports = (api, opts) => {
   const deps = {
     dependencies,
     devDependencies: {
-      'babel-plugin-transform-imports': '1.5.0',
+      'babel-plugin-transform-imports': '1.5.0'
+    }
+  }
+
+  if (opts.quasar.cssPreprocessor === 'styl') {
+    Object.assign(deps.devDependencies, {
       stylus: '^0.54.5',
       'stylus-loader': '^3.0.2'
-    }
+    })
+  }
+  else if (['sass', 'scss'].includes(opts.quasar.cssPreprocessor)) {
+    Object.assign(deps.devDependencies, {
+      'node-sass': '^4.13.0',
+      'sass-loader': '^8.0.0'
+    })
   }
 
   if (opts.quasar.rtlSupport) {
@@ -57,13 +83,13 @@ module.exports = (api, opts) => {
 
   // modify plugin options
   extendPluginOptions(api, (pluginOptions, transpileDependencies) => {
-    pluginOptions.quasar = pluginOptions.quasar || {}
-
-    if (opts.quasar.rtlSupport) {
-      pluginOptions.quasar.rtlSupport = opts.quasar.rtlSupport
-    }
-
-    pluginOptions.quasar.importStrategy = opts.quasar.importStrategy
+    pluginOptions.quasar = Object.assign(
+      pluginOptions.quasar || {},
+      {
+        importStrategy: opts.quasar.importStrategy,
+        rtlSupport: opts.quasar.rtlSupport
+      }
+    )
 
     transpileDependencies.push('quasar')
 
@@ -74,6 +100,10 @@ module.exports = (api, opts) => {
 
   if (opts.quasar.rtlSupport) {
     api.render('./templates/rtl')
+  }
+
+  if (opts.quasar.cssPreprocessor !== 'none') {
+    api.render(`./templates/${opts.quasar.cssPreprocessor}`)
   }
 
   if (opts.quasar.replaceComponents) {
@@ -105,7 +135,12 @@ module.exports = (api, opts) => {
       opts.quasar.features.push(opts.quasar.iconSet)
     }
 
-    lines += `\nimport './styles/quasar.styl'`
+    if (opts.quasar.cssPreprocessor !== 'none') {
+      lines += `\nimport './styles/quasar.${opts.quasar.cssPreprocessor}'`
+    }
+    else {
+      lines += `\nimport 'quasar/dist/quasar.css'`
+    }
 
     if (opts.quasar.features.includes('ie')) {
       lines += `\nimport 'quasar/dist/quasar.ie.polyfills'`

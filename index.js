@@ -1,27 +1,39 @@
+const fs = require('fs')
 const path = require('path')
+
+function getCssPreprocessor (api) {
+  return ['sass', 'scss', 'styl'].find(ext => {
+    return fs.existsSync(
+      api.resolve('src/styles/quasar.variables.' + ext)
+    )
+  })
+}
 
 module.exports = (api, options) => {
   if (options.pluginOptions.quasar.rtlSupport) {
     process.env.QUASAR_RTL = true
   }
 
+  const cssPreprocessor = getCssPreprocessor(api)
+  const srcCssExt = cssPreprocessor === 'scss' ? 'sass' : cssPreprocessor
+
   api.chainWebpack(chain => {
-    chain.resolve.alias
+    cssPreprocessor && chain.resolve.alias
       .set(
         'quasar-variables',
-        api.resolve('src/styles/quasar.variables.styl')
+        api.resolve(`src/styles/quasar.variables.${cssPreprocessor}`)
       )
       .set(
         'quasar-variables-styl',
-        'quasar/src/css/variables.styl'
+        `quasar/src/css/variables.${srcCssExt}`
       )
       .set(
         'quasar-styl',
-        'quasar/dist/quasar.styl'
+        `quasar/dist/quasar.${srcCssExt}`
       )
       .set(
         'quasar-addon-styl',
-        'quasar/src/css/flex-addon.styl'
+        `quasar/src/css/flex-addon.${srcCssExt}`
       )
 
     chain.performance.maxEntrypointSize(512000)
