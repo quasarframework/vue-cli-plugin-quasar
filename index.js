@@ -47,11 +47,16 @@ module.exports = (api, options) => {
         .options(strategy)
         .before('cache-loader')
     }
-    else if (![void 0, 'manual'].includes(strategy)) {
+    else if (strategy !== void 0 && strategy !== 'manual') {
       console.error(`Incorrect setting for quasar > importStrategy (${strategy})`)
       console.error(`Use one of: 'kebab', 'pascal', 'combined', 'manual'.`)
       console.log()
       process.exit(1)
     }
+
+    chain.module.rule('transform-quasar-imports')
+      .test(/\.(t|j)sx?$/)
+      .use('transform-quasar-imports')
+        .loader(path.join(__dirname, 'lib/loader.transform-quasar-imports.js'))
   })
 }

@@ -1,6 +1,5 @@
 const fs = require('fs'),
-  extendPluginOptions = require('../lib/extendPluginOptions'),
-  extendBabel = require('../lib/extendBabel')
+  extendPluginOptions = require('../lib/extendPluginOptions')
 
 const message = `
 Documentation can be found at: https://quasar.dev
@@ -57,9 +56,7 @@ module.exports = (api, opts) => {
 
   const deps = {
     dependencies,
-    devDependencies: {
-      'babel-plugin-transform-imports': '1.5.0'
-    }
+    devDependencies: {}
   }
 
   if (opts.quasar.cssPreprocessor === 'styl') {
@@ -122,8 +119,6 @@ module.exports = (api, opts) => {
   }
 
   api.onCreateComplete(() => {
-    extendBabel(api)
-
     let lines = `import Vue from 'vue'\n`
 
     const
