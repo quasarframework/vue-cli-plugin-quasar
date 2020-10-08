@@ -23,23 +23,6 @@ const iconMap = {
   mdi: 'mdi-v4'
 }
 
-const components = [
-  'QLayout',
-  'QHeader',
-  'QDrawer',
-  'QPageContainer',
-  'QPage',
-  'QToolbar',
-  'QToolbarTitle',
-  'QBtn',
-  'QIcon',
-  'QList',
-  'QItem',
-  'QItemSection',
-  'QItemLabel'
-]
-
-const directives = []
 const plugins = []
 
 module.exports = (api, opts) => {
@@ -83,7 +66,7 @@ module.exports = (api, opts) => {
     pluginOptions.quasar = Object.assign(
       pluginOptions.quasar || {},
       {
-        importStrategy: opts.quasar.importStrategy,
+        importStrategy: 'kebab',
         rtlSupport: opts.quasar.rtlSupport
       }
     )
@@ -122,7 +105,6 @@ module.exports = (api, opts) => {
     let lines = `import Vue from 'vue'\n`
 
     const
-      autoImport = opts.quasar.importStrategy !== 'manual',
       hasIconSet = opts.quasar.iconSet !== 'material-icons',
       hasLang = opts.quasar.lang !== 'en-us'
 
@@ -158,46 +140,11 @@ module.exports = (api, opts) => {
       })
 
     // build import
-    if (autoImport) {
-      lines += `\nimport { Quasar } from 'quasar'`
-    }
-    else {
-      lines += `\nimport {\n  Quasar, `
-      components
-        .concat(directives)
-        .concat(plugins)
-        .forEach(part => {
-          lines += `\n  ${part},`
-        })
-      lines += `\n}`
-      lines += ` from 'quasar'`
-    }
+    lines += `\nimport { Quasar } from 'quasar'`
 
     // build Vue.use()
     lines += `\n\nVue.use(Quasar, {`
     lines += `\n  config: {}`
-
-    lines += ',\n  components: {'
-    if (autoImport) {
-      lines += ` /* not needed if importStrategy is not 'manual' */ }`
-    }
-    else {
-      components.forEach(part => {
-        lines += `\n    ${part},`
-      })
-      lines += `\n  }`
-    }
-
-    lines += ',\n  directives: {'
-    if (autoImport) {
-      lines += ` /* not needed if importStrategy is not 'manual' */ }`
-    }
-    else {
-      directives.forEach(part => {
-        lines += `\n   ${part},`
-      })
-      lines += `\n  }`
-    }
 
     lines += ',\n  plugins: {'
     plugins.forEach(part => {

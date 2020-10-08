@@ -9,25 +9,6 @@ module.exports = [
   },
 
   {
-    name: 'quasar.importStrategy',
-    type: 'list',
-    message: 'Pick a Quasar components & directives import strategy: (can be changed later)',
-    choices: [
-      {
-        name: `Auto-import in-use Quasar components & directives (kebab-case, can be later changed to 'pascal'/'combined'/'manual')`,
-        value: 'kebab',
-        short: 'Auto import (kebab-case)',
-        checked: true
-      },
-      {
-        name: 'Manually specify what to import',
-        value: 'manual',
-        short: 'Manual'
-      }
-    ]
-  },
-
-  {
     name: 'quasar.cssPreprocessor',
     type: 'list',
     message: 'Pick your favorite CSS preprocessor:',

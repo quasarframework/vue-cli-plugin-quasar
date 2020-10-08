@@ -38,7 +38,7 @@ module.exports = (api, options) => {
 
     chain.performance.maxEntrypointSize(512000)
 
-    const strategy = options.pluginOptions.quasar.importStrategy
+    const strategy = options.pluginOptions.quasar.importStrategy || 'kebab'
 
     if (['kebab', 'pascal', 'combined'].includes(strategy)) {
       chain.module.rule('vue')
@@ -47,9 +47,9 @@ module.exports = (api, options) => {
         .options(strategy)
         .before('cache-loader')
     }
-    else if (strategy !== void 0 && strategy !== 'manual') {
+    else {
       console.error(`Incorrect setting for quasar > importStrategy (${strategy})`)
-      console.error(`Use one of: 'kebab', 'pascal', 'combined', 'manual'.`)
+      console.error(`Use one of: 'kebab', 'pascal', 'combined'.`)
       console.log()
       process.exit(1)
     }
