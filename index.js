@@ -1,5 +1,9 @@
 const fs = require('fs')
 const path = require('path')
+const webpack = require('webpack')
+
+const getDevlandFile = require('./lib/get-devland-file')
+const { version } = getDevlandFile('quasar/package.json')
 
 function getCssPreprocessor (api) {
   return ['sass', 'scss', 'styl'].find(ext => {
@@ -36,6 +40,15 @@ module.exports = (api, options) => {
         `quasar/src/css/flex-addon.${srcCssExt}`
       )
 
+    chain.plugin('define-quasar')
+      .use(webpack.DefinePlugin, [{
+        __QUASAR_VERSION__: `'${version}'`,
+        __QUASAR_SSR__: false,
+        __QUASAR_SSR_SERVER__: false,
+        __QUASAR_SSR_CLIENT__: false,
+        __QUASAR_SSR_PWA__: false
+      }])
+
     chain.performance.maxEntrypointSize(512000)
 
     const strategy = options.pluginOptions.quasar.importStrategy || 'kebab'
@@ -43,9 +56,14 @@ module.exports = (api, options) => {
     if (['kebab', 'pascal', 'combined'].includes(strategy)) {
       chain.module.rule('vue')
         .use('quasar-auto-import')
-        .loader(path.join(__dirname, 'lib/loader.auto-import.js'))
+        .loader(path.join(__dirname, 'lib/loader.vue-auto-import.js'))
         .options(strategy)
         .before('cache-loader')
+
+      chain.module.rule('transform-quasar-imports')
+        .test(/\.(t|j)sx?$/)
+        .use('transform-quasar-imports')
+          .loader(path.join(__dirname, 'lib/loader.js-auto-import.js'))
     }
     else {
       console.error(`Incorrect setting for quasar > importStrategy (${strategy})`)
@@ -53,10 +71,5 @@ module.exports = (api, options) => {
       console.log()
       process.exit(1)
     }
-
-    chain.module.rule('transform-quasar-imports')
-      .test(/\.(t|j)sx?$/)
-      .use('transform-quasar-imports')
-        .loader(path.join(__dirname, 'lib/loader.transform-quasar-imports.js'))
   })
 }
