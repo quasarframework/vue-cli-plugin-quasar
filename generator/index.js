@@ -27,7 +27,7 @@ const plugins = []
 
 module.exports = (api, opts) => {
   const
-    quasarPath = api.resolve('./src/quasar-config.js'),
+    quasarPath = api.resolve('./src/quasar-user-options.js'),
     tsPath = api.resolve('./src/main.ts'),
     jsPath = api.resolve('./src/main.js'),
     hasTS = fs.existsSync(tsPath)
@@ -128,8 +128,7 @@ module.exports = (api, opts) => {
         qFileLines += `\nimport '@quasar/extras/${feat}/${feat}.css'`
       })
 
-    // build Vue.use()
-    qFileLines += `\n\nexport default {`
+    qFileLines += `\n\n// To be used on app.use(Quasar, { ... })\nexport default {`
     qFileLines += `\n  config: {}`
 
     qFileLines += ',\n  plugins: {'
@@ -155,10 +154,10 @@ module.exports = (api, opts) => {
       const mainLines = content.split(/\r?\n/g).reverse()
 
       const index = mainLines.findIndex(line => line.match(/^import/))
-      mainLines[index] += `\nimport { Quasar } from 'quasar'\nimport quasarConfig from './quasar-config'`
+      mainLines[index] += `\nimport { Quasar } from 'quasar'\nimport quasarUserOptions from './quasar-user-options'`
 
       content = mainLines.reverse().join('\n')
-      content = content.replace('createApp(App)', `createApp(App).use(Quasar, quasarConfig)`)
+      content = content.replace('createApp(App)', `createApp(App).use(Quasar, quasarUserOptions)`)
       fs.writeFileSync(mainPath, content, { encoding: 'utf8' })
 
       fs.writeFileSync(quasarPath, qFileLines, { encoding: 'utf8' })

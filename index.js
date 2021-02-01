@@ -55,15 +55,15 @@ module.exports = (api, options) => {
 
     if (['kebab', 'pascal', 'combined'].includes(strategy)) {
       chain.module.rule('vue')
-        .use('quasar-auto-import')
-        .loader(path.join(__dirname, 'lib/loader.vue-auto-import.js'))
+        .use('vue-auto-import-quasar')
+        .loader(path.join(__dirname, 'lib/loader.vue.auto-import-quasar.js'))
         .options(strategy)
         .before('cache-loader')
 
-      chain.module.rule('transform-quasar-imports')
+      chain.module.rule('js-transform-quasar-imports')
         .test(/\.(t|j)sx?$/)
-        .use('transform-quasar-imports')
-          .loader(path.join(__dirname, 'lib/loader.js-auto-import.js'))
+        .use('js-transform-quasar-imports')
+          .loader(path.join(__dirname, 'lib/loader.js.transform-quasar-imports.js'))
     }
     else {
       console.error(`Incorrect setting for quasar > importStrategy (${strategy})`)
