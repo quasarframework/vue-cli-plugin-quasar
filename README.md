@@ -14,13 +14,13 @@ Please submit a PR to https://github.com/quasarframework/quasar-awesome with you
 
 ## Getting started
 
-:warning: Make sure you have vue-cli 3.x.x:
+:warning: Make sure you have vue-cli 4.5.1+:
 
 ```
 vue --version
 ```
 
-If you don't have a project created with vue-cli 3.x yet:
+If you don't have a project created with vue-cli 3/4.x yet:
 
 ```
 vue create my-app
@@ -29,13 +29,16 @@ vue create my-app
 Navigate to the newly created project folder and add the cli plugin. Before installing it, make sure to commit your current changes should you wish to revert them later.
 
 ```
-cd my-app
-vue add quasar
+# commands will change after Quasar v2 becomes stable (and out of beta)
+
+$ cd my-app
+$ yarn add --dev vue-cli-plugin-quasar@next
+$ vue invoke quasar
 ```
 
 It will ask you if you want the plugin to replace some existing files. It is recommended that you do it if you wish to have an example so you can quickly develop your app.
 
-Your Vue config (in package.json or vue.config.js file, depending on what you chose when you created your vue app) will also contain a `quasar` Object. Most important property is `theme` (with possible values "mat" or "ios"), which you can later change should you want.
+Your Vue config (in package.json or vue.config.js file, depending on what you chose when you created your vue app) will also contain a `quasar` Object.
 
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
