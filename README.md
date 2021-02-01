@@ -2,7 +2,7 @@
 
 # Quasar Framework: vue-cli-plugin-quasar
 
-> :rocket: Start building a Vue app with Quasar Framework in 2 minutes!
+> :rocket: Start building a Vue app with Quasar Framework v2 in 2 minutes!
 
 > :warning: **For the premium (and recommended) experience with Quasar, including the ability to build Mobile & Electron apps and efortless upgrades to new Quasar versions, you should instead use Quasar CLI**
 
@@ -23,6 +23,7 @@ vue --version
 If you don't have a project created with vue-cli 3/4.x yet:
 
 ```
+# make sure to pick Vue 3 when asked:
 vue create my-app
 ```
 
