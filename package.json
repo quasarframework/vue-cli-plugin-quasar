@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/quasarframework/vue-cli-plugin-quasar/issues"
   },
-  "homepage": "https://github.com/quasarframework/vue-cli-plugin-quasar#readme"
+  "homepage": "https://github.com/quasarframework/vue-cli-plugin-quasar#readme",
+  "dependencies": {
+    "webpack-merge": "^5.7.3"
+  }
 }

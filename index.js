@@ -1,9 +1,12 @@
 const fs = require('fs')
 const path = require('path')
 const webpack = require('webpack')
+const { merge } = require('webpack-merge')
 
 const getDevlandFile = require('./lib/get-devland-file')
 const { version } = getDevlandFile('quasar/package.json')
+
+const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
 
 function getCssPreprocessor (api) {
   return ['sass', 'scss', 'styl'].find(ext => {
@@ -52,6 +55,25 @@ module.exports = (api, options) => {
     chain.performance.maxEntrypointSize(512000)
 
     const strategy = options.pluginOptions.quasar.importStrategy || 'kebab'
+
+    chain.module.rule('vue').use('vue-loader').tap(options => ({
+      ...options,
+      transformAssetUrls: merge(
+        {
+          base: null,
+          includeAbsolute: false,
+          tags: {
+            video: ['src', 'poster'],
+            source: ['src'],
+            img: ['src'],
+            image: ['xlink:href', 'href'],
+            use: ['xlink:href', 'href']
+          }
+        },
+        options.transformAssetUrls || {},
+        transformAssetUrls
+      )
+    }))
 
     if (['kebab', 'pascal', 'combined'].includes(strategy)) {
       chain.module.rule('vue')
