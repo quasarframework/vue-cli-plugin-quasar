@@ -44,7 +44,7 @@ module.exports = (api, opts) => {
 
   if (['sass', 'scss'].includes(opts.quasar.cssPreprocessor)) {
     Object.assign(deps.devDependencies, {
-      'sass': '^1.29.0',
+      'sass': '1.32.12',
       'sass-loader': '^10.1.0'
     })
   }
