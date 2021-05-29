@@ -14,13 +14,13 @@ Please submit a PR to https://github.com/quasarframework/quasar-awesome with you
 
 ## Getting started
 
-:warning: Make sure you have vue-cli 4.5.1+:
+:warning:  Make sure you have vue-cli 4.5.1+:
 
 ```
 vue --version
 ```
 
-If you don't have a project created with vue-cli 3/4.x yet:
+If you don't have a project created with vue-cli 4.5.1+ yet:
 
 ```
 # make sure to pick Vue 3 when asked:
