@@ -2,7 +2,7 @@
 
 # Quasar Framework: vue-cli-plugin-quasar
 
-> :rocket: Start building a Vue app with Quasar Framework v1 (Vue 2) in 2 minutes!
+> :rocket: Start building a Vue app with Quasar Framework v2 in 2 minutes!
 
 > :warning: **For the premium (and recommended) experience with Quasar, including the ability to build Mobile & Electron apps and efortless upgrades to new Quasar versions, you should instead use Quasar CLI**
 
@@ -14,28 +14,32 @@ Please submit a PR to https://github.com/quasarframework/quasar-awesome with you
 
 ## Getting started
 
-:warning:  Make sure you have vue-cli v3/v4:
+:warning:  Make sure you have vue-cli 4.5.1+:
 
 ```
 vue --version
 ```
 
-If you don't have a project created with vue-cli v3/v4 yet:
+If you don't have a project created with vue-cli 4.5.1+ yet:
 
 ```
+# make sure to pick Vue 3 when asked:
 vue create my-app
 ```
 
 Navigate to the newly created project folder and add the cli plugin. Before installing it, make sure to commit your current changes should you wish to revert them later.
 
 ```
-cd my-app
-vue add quasar
+# commands will change after Quasar v2 becomes stable (and out of beta)
+
+$ cd my-app
+$ yarn add --dev vue-cli-plugin-quasar@next
+$ vue invoke quasar
 ```
 
 It will ask you if you want the plugin to replace some existing files. It is recommended that you do it if you wish to have an example so you can quickly develop your app.
 
-Your Vue config (in package.json or vue.config.js file, depending on what you chose when you created your vue app) will also contain a `quasar` Object. Most important property is `theme` (with possible values "mat" or "ios"), which you can later change should you want.
+Your Vue config (in package.json or vue.config.js file, depending on what you chose when you created your vue app) will also contain a `quasar` Object.
 
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).
