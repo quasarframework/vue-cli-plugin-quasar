@@ -79,7 +79,7 @@ module.exports = (api, options) => {
       chain.module.rule('vue')
         .use('vue-auto-import-quasar')
         .loader(path.join(__dirname, 'lib/loader.vue.auto-import-quasar.js'))
-        .options(strategy)
+        .options({ strategy })
         .before('cache-loader')
 
       chain.module.rule('js-transform-quasar-imports')
