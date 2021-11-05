@@ -59,17 +59,6 @@ module.exports = (api, options) => {
     chain.module.rule('vue').use('vue-loader').tap(options => ({
       ...options,
       transformAssetUrls: merge(
-        {
-          base: null,
-          includeAbsolute: false,
-          tags: {
-            video: ['src', 'poster'],
-            source: ['src'],
-            img: ['src'],
-            image: ['xlink:href', 'href'],
-            use: ['xlink:href', 'href']
-          }
-        },
         options.transformAssetUrls || {},
         transformAssetUrls
       )
