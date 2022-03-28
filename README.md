@@ -23,17 +23,14 @@ vue --version
 If you don't have a project created with vue-cli v5 yet:
 
 ```
-# make sure to pick Vue 3 when asked:
 vue create my-app
 ```
 
 Navigate to the newly created project folder and add the cli plugin. Before installing it, make sure to commit your current changes should you wish to revert them later.
 
 ```
-# commands will change after Quasar v2 becomes stable (and out of beta)
-
 $ cd my-app
-$ yarn add --dev vue-cli-plugin-quasar@next
+$ yarn add --dev vue-cli-plugin-quasar
 $ vue invoke quasar
 ```
 
