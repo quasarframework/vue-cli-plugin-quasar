@@ -45,12 +45,12 @@ module.exports = (api, opts) => {
   if (['sass', 'scss'].includes(opts.quasar.cssPreprocessor)) {
     Object.assign(deps.devDependencies, {
       'sass': '1.32.12',
-      'sass-loader': '^10.1.0'
+      'sass-loader': '^12.0.0'
     })
   }
 
   if (opts.quasar.rtlSupport) {
-    deps.devDependencies['postcss-rtl'] = '^1.2.3'
+    deps.devDependencies['postcss-rtl'] = '^3.5.3'
   }
 
   api.extendPackage(deps)

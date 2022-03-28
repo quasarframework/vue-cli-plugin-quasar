@@ -9,11 +9,26 @@ const { version } = getDevlandFile('quasar/package.json')
 const transformAssetUrls = getDevlandFile('quasar/dist/transforms/loader-asset-urls.json')
 
 function getCssPreprocessor (api) {
-  return ['sass', 'scss', 'styl'].find(ext => {
+  return ['sass', 'scss'].find(ext => {
     return fs.existsSync(
       api.resolve('src/styles/quasar.variables.' + ext)
     )
   })
+}
+
+function applyCssRule (rule, cssPreprocessor) {
+  rule
+    .use('quasar-sass-variables-loader')
+    .loader(path.join(__dirname, `lib/loader.${cssPreprocessor}.js`))
+}
+
+function applyCssLoaders (chain, cssPreprocessor) {
+  const rule = chain.module.rule(cssPreprocessor)
+
+  applyCssRule(rule.oneOf('vue-modules'), cssPreprocessor)
+  applyCssRule(rule.oneOf('vue'), cssPreprocessor)
+  applyCssRule(rule.oneOf('normal-modules'), cssPreprocessor)
+  applyCssRule(rule.oneOf('normal'), cssPreprocessor)
 }
 
 module.exports = (api, options) => {
@@ -22,26 +37,30 @@ module.exports = (api, options) => {
   }
 
   const cssPreprocessor = getCssPreprocessor(api)
-  const srcCssExt = cssPreprocessor === 'scss' ? 'sass' : cssPreprocessor
 
   api.chainWebpack(chain => {
-    cssPreprocessor && chain.resolve.alias
-      .set(
-        'quasar-variables',
-        api.resolve(`src/styles/quasar.variables.${cssPreprocessor}`)
-      )
-      .set(
-        'quasar-variables-styl',
-        `quasar/src/css/variables.${srcCssExt}`
-      )
-      .set(
-        'quasar-styl',
-        `quasar/dist/quasar.${srcCssExt}`
-      )
-      .set(
-        'quasar-addon-styl',
-        `quasar/src/css/flex-addon.${srcCssExt}`
-      )
+    if (cssPreprocessor) {
+      chain.resolve.alias
+        .set(
+          'quasar-variables',
+          api.resolve(`src/styles/quasar.variables.${cssPreprocessor}`)
+        )
+        .set(
+          'quasar-variables-styl',
+          `quasar/src/css/variables.sass`
+        )
+        .set(
+          'quasar-styl',
+          `quasar/dist/quasar.sass`
+        )
+        .set(
+          'quasar-addon-styl',
+          `quasar/src/css/flex-addon.sass`
+        )
+
+      applyCssLoaders(chain, 'sass')
+      applyCssLoaders(chain, 'scss')
+    }
 
     chain.plugin('define-quasar')
       .use(webpack.DefinePlugin, [{
@@ -69,7 +88,7 @@ module.exports = (api, options) => {
         .use('vue-auto-import-quasar')
         .loader(path.join(__dirname, 'lib/loader.vue.auto-import-quasar.js'))
         .options({ strategy })
-        .before('cache-loader')
+        .before('vue-loader')
 
       chain.module.rule('js-transform-quasar-imports')
         .test(/\.(t|j)sx?$/)
