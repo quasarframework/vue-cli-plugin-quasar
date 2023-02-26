@@ -22,7 +22,7 @@
     "url": "https://github.com/quasarframework/vue-cli-plugin-quasar/issues"
   },
   "homepage": "https://github.com/quasarframework/vue-cli-plugin-quasar#readme",
-  dependencies: {
+  "dependencies": {
     "loader-utils": "^1.4.0"
   }
 }
