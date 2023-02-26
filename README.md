@@ -1,8 +1,8 @@
-![Quasar Framework logo](https://cdn.rawgit.com/quasarframework/quasar-art/863c14bd/dist/svg/quasar-logo-full-inline.svg)
+![Quasar Framework logo](https://cdn.quasar.dev/logo-v2/header.png)
 
 # Quasar Framework: vue-cli-plugin-quasar
 
-> :rocket: Start building a Vue app with Quasar Framework in 2 minutes!
+> :rocket: Start building a Vue app with Quasar Framework v2 in 2 minutes!
 
 > :warning: **For the premium (and recommended) experience with Quasar, including the ability to build Mobile & Electron apps and efortless upgrades to new Quasar versions, you should instead use Quasar CLI**
 
@@ -14,13 +14,13 @@ Please submit a PR to https://github.com/quasarframework/quasar-awesome with you
 
 ## Getting started
 
-:warning: Make sure you have vue-cli 3.x.x:
+:warning:  Make sure you have vue-cli v5:
 
 ```
 vue --version
 ```
 
-If you don't have a project created with vue-cli 3.x yet:
+If you don't have a project created with vue-cli v5 yet:
 
 ```
 vue create my-app
@@ -29,13 +29,14 @@ vue create my-app
 Navigate to the newly created project folder and add the cli plugin. Before installing it, make sure to commit your current changes should you wish to revert them later.
 
 ```
-cd my-app
-vue add quasar
+$ cd my-app
+$ yarn add --dev vue-cli-plugin-quasar
+$ vue invoke quasar
 ```
 
 It will ask you if you want the plugin to replace some existing files. It is recommended that you do it if you wish to have an example so you can quickly develop your app.
 
-Your Vue config (in package.json or vue.config.js file, depending on what you chose when you created your vue app) will also contain a `quasar` Object. Most important property is `theme` (with possible values "mat" or "ios"), which you can later change should you want.
+Your Vue config (in package.json or vue.config.js file, depending on what you chose when you created your vue app) will also contain a `quasar` Object.
 
 ## Supporting Quasar
 Quasar Framework is an MIT-licensed open source project. Its ongoing development is made possible thanks to the support by these awesome [backers](https://github.com/rstoenescu/quasar-framework/blob/dev/backers.md).

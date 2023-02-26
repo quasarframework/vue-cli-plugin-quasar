@@ -1,7 +1,7 @@
 {
   "name": "vue-cli-plugin-quasar",
-  "version": "3.0.1",
-  "description": "Quasar Framework plugin for Vue CLI v4+",
+  "version": "5.0.1",
+  "description": "Quasar Framework v2 plugin for Vue CLI v5",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/quasarframework/vue-cli-plugin-quasar#readme",
   "dependencies": {
-    "loader-utils": "^1.4.0"
+    "loader-utils": "^1.4.0",
+    "webpack-merge": "^5.7.3"
   }
 }

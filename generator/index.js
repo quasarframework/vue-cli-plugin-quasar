@@ -1,5 +1,5 @@
-const fs = require('fs'),
-  extendPluginOptions = require('../lib/extendPluginOptions')
+const fs = require('fs')
+const extendPluginOptions = require('../lib/extendPluginOptions')
 
 const message = `
 Documentation can be found at: https://quasar.dev
@@ -27,13 +27,13 @@ const plugins = []
 
 module.exports = (api, opts) => {
   const
-    quasarPath = api.resolve('./src/quasar.js'),
+    quasarPath = api.resolve('./src/quasar-user-options.js'),
     tsPath = api.resolve('./src/main.ts'),
     jsPath = api.resolve('./src/main.js'),
     hasTS = fs.existsSync(tsPath)
 
   const dependencies = {
-    quasar: '^1.0.0',
+    quasar: '^2.0.0',
     '@quasar/extras': '^1.0.0'
   }
 
@@ -42,21 +42,15 @@ module.exports = (api, opts) => {
     devDependencies: {}
   }
 
-  if (opts.quasar.cssPreprocessor === 'styl') {
+  if (['sass', 'scss'].includes(opts.quasar.cssPreprocessor)) {
     Object.assign(deps.devDependencies, {
-      stylus: '^0.54.5',
-      'stylus-loader': '^3.0.2'
-    })
-  }
-  else if (['sass', 'scss'].includes(opts.quasar.cssPreprocessor)) {
-    Object.assign(deps.devDependencies, {
-      'node-sass': '^4.13.0',
-      'sass-loader': '^8.0.0'
+      'sass': '1.32.12',
+      'sass-loader': '^12.0.0'
     })
   }
 
   if (opts.quasar.rtlSupport) {
-    deps.devDependencies['postcss-rtl'] = '^1.2.3'
+    deps.devDependencies['postcss-rtl'] = '^3.5.3'
   }
 
   api.extendPackage(deps)
@@ -102,64 +96,55 @@ module.exports = (api, opts) => {
   }
 
   api.onCreateComplete(() => {
-    let lines = `import Vue from 'vue'\n`
+    let qFileLines = ''
 
     const
       hasIconSet = opts.quasar.iconSet !== 'material-icons',
-      hasLang = opts.quasar.lang !== 'en-us'
+      hasLang = opts.quasar.lang !== 'en-US'
 
     if (!opts.quasar.features.includes(opts.quasar.iconSet)) {
       opts.quasar.features.push(opts.quasar.iconSet)
     }
 
     if (opts.quasar.cssPreprocessor !== 'none') {
-      lines += `\nimport './styles/quasar.${opts.quasar.cssPreprocessor}'`
+      qFileLines += `\nimport './styles/quasar.${opts.quasar.cssPreprocessor}'`
     }
     else {
-      lines += `\nimport 'quasar/dist/quasar.css'`
-    }
-
-    if (opts.quasar.features.includes('ie')) {
-      lines += `\nimport 'quasar/dist/quasar.ie.polyfills'`
+      qFileLines += `\nimport 'quasar/dist/quasar.css'`
     }
 
     if (hasIconSet) {
       const set = iconMap[opts.quasar.iconSet] || opts.quasar.iconSet
-      lines += `\nimport iconSet from 'quasar/icon-set/${set}.js'`
+      qFileLines += `\nimport iconSet from 'quasar/icon-set/${set}.js'`
     }
 
     if (hasLang) {
-      lines += `\nimport lang from 'quasar/lang/${opts.quasar.lang}.js'`
+      qFileLines += `\nimport lang from 'quasar/lang/${opts.quasar.lang}.js'`
     }
 
     opts.quasar.features
-      .filter(feat => feat !== 'ie')
       .forEach(feat => {
         feat = iconMap[feat] || feat
-        lines += `\nimport '@quasar/extras/${feat}/${feat}.css'`
+        qFileLines += `\nimport '@quasar/extras/${feat}/${feat}.css'`
       })
 
-    // build import
-    lines += `\nimport { Quasar } from 'quasar'`
+    qFileLines += `\n\n// To be used on app.use(Quasar, { ... })\nexport default {`
+    qFileLines += `\n  config: {}`
 
-    // build Vue.use()
-    lines += `\n\nVue.use(Quasar, {`
-    lines += `\n  config: {}`
-
-    lines += ',\n  plugins: {'
+    qFileLines += ',\n  plugins: {'
     plugins.forEach(part => {
-      lines += `\n   ${part},`
+      qFileLines += `\n   ${part},`
     })
-    lines += `\n  }`
+    qFileLines += `\n  }`
 
     if (hasLang) {
-      lines += `,\n  lang: lang`
+      qFileLines += `,\n  lang: lang`
     }
     if (hasIconSet) {
-      lines += `,\n  iconSet: iconSet`
+      qFileLines += `,\n  iconSet: iconSet`
     }
 
-    lines += `\n })`
+    qFileLines += `\n}`
 
     // Now inject additions to main.[js|ts]
     {
@@ -169,12 +154,13 @@ module.exports = (api, opts) => {
       const mainLines = content.split(/\r?\n/g).reverse()
 
       const index = mainLines.findIndex(line => line.match(/^import/))
-      mainLines[index] += `\nimport './quasar'`
+      mainLines[index] += `\nimport { Quasar } from 'quasar'\nimport quasarUserOptions from './quasar-user-options'`
 
       content = mainLines.reverse().join('\n')
+      content = content.replace('createApp(App)', `createApp(App).use(Quasar, quasarUserOptions)`)
       fs.writeFileSync(mainPath, content, { encoding: 'utf8' })
 
-      fs.writeFileSync(quasarPath, lines, { encoding: 'utf8' })
+      fs.writeFileSync(quasarPath, qFileLines, { encoding: 'utf8' })
     }
 
     if (api.generator.hasPlugin('@vue/cli-plugin-eslint')) {

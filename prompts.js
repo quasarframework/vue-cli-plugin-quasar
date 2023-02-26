@@ -15,19 +15,14 @@ module.exports = [
     default: 'sass',
     choices: [
       {
-        name: 'Sass with indented syntax (recommended)',
+        name: 'Sass with indented syntax',
         value: 'sass',
         short: 'Sass'
       },
       {
-        name: 'Sass with SCSS syntax (recommended)',
+        name: 'Sass with SCSS syntax',
         value: 'scss',
         short: 'SCSS'
-      },
-      {
-        name: 'Stylus',
-        value: 'styl',
-        short: 'Stylus'
       },
       {
         name: `None (style variables won't be available)`,
@@ -90,7 +85,7 @@ module.exports = [
     type: 'string',
     message:
       'Default Quasar language pack - one from https://github.com/quasarframework/quasar/tree/dev/ui/lang',
-    default: 'en-us',
+    default: 'en-US',
     validate: opt => opt && opt.length >= 2
   },
 
@@ -106,10 +101,6 @@ module.exports = [
     type: 'checkbox',
     message: 'Select features:',
     choices: [
-      {
-        name: 'IE11 support',
-        value: 'ie'
-      },
       {
         name: 'Roboto font',
         value: 'roboto-font'
