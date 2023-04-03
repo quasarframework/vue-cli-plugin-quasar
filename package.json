@@ -23,6 +23,7 @@
   },
   "homepage": "https://github.com/quasarframework/vue-cli-plugin-quasar#readme",
   "dependencies": {
+    "loader-utils": "^1.4.0",
     "webpack-merge": "^5.7.3"
   }
 }
